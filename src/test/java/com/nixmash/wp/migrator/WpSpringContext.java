@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 		classes= { Application.class, WpConfig.class, ApplicationConfig.class})
 @Transactional
 @ActiveProfiles("h2")
-public class ApplicationTest {
+public class WpSpringContext {
 
 	@Autowired
 	ApplicationContext ctx;

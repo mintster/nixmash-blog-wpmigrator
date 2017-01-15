@@ -15,6 +15,7 @@
 
     <logger name="com.nixmash.wp.migrator" level="info" />
     <logger name="org.springframework" level="off" />
+    <logger name="org.hibernate" level="off" />
 
     <root level="off">
         <appender-ref ref="console" />

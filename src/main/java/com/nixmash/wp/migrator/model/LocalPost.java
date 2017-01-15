@@ -23,10 +23,10 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Access(value = FIELD)
 @NamedQueries({
         @NamedQuery(name = "Post.getByPostIds",
-                query = "SELECT p FROM Post p " +
+                query = "SELECT p FROM LocalPost p " +
                         "WHERE p.postId IN :postIds ORDER BY p.postDate DESC"),
 })
-public class Post implements Serializable {
+public class LocalPost implements Serializable {
 
     private static final long serialVersionUID = 3533657789336113957L;
 
@@ -38,7 +38,7 @@ public class Post implements Serializable {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "post_id", nullable = false)
+    @Column(name = "post_id", unique = true, nullable = false)
     private Long postId;
 
     @Column(name = "user_id", nullable = false)
@@ -56,8 +56,10 @@ public class Post implements Serializable {
     @Column(name = "post_image", length = MAX_POST_NAME_LENGTH)
     private String postImage;
 
+    @Column(name = "post_date", nullable = false)
     private ZonedDateTime postDate;
 
+    @Column(name = "post_modified", nullable = false)
     private ZonedDateTime postModified;
 
     @Column(name = "post_type", nullable = false, length = 20)
@@ -98,17 +100,17 @@ public class Post implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "tag_id",
                     referencedColumnName = "tag_id",
                     nullable = false))
-    public Set<Tag> tags;
+    public Set<LocalTag> tags;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
-    public User author;
+    public LocalUser author;
 
-    public User getAuthor() {
+    public LocalUser getAuthor() {
         return author;
     }
 
-    public void setAuthor(User author) {
+    public void setAuthor(LocalUser author) {
         this.author = author;
     }
 
@@ -178,9 +180,8 @@ public class Post implements Serializable {
         this.postLink = postLink;
     }
 
-    @Column(name = "post_date", nullable = false)
-    @Type(type = "org.jadira.usertype.dateandtime.threeten.PersistentLocalDateTime")
     @CreatedDate
+    @Type(type = "org.jadira.usertype.dateandtime.threeten.PersistentLocalDateTime")
     public ZonedDateTime getPostDate() {
         return postDate;
     }
@@ -188,9 +189,8 @@ public class Post implements Serializable {
         this.postDate = postDate;
     }
 
-    @Column(name = "post_modified", nullable = false)
-    @Type(type = "org.jadira.usertype.dateandtime.threeten.PersistentLocalDateTime")
     @LastModifiedDate
+    @Type(type = "org.jadira.usertype.dateandtime.threeten.PersistentLocalDateTime")
     public ZonedDateTime getPostModified() {
         return postModified;
     }
@@ -278,11 +278,11 @@ public class Post implements Serializable {
         this.version = version;
     }
 
-    public Set<Tag> getTags() {
+    public Set<LocalTag> getTags() {
         return tags;
     }
 
-    public void setTags(Set<Tag> tags) {
+    public void setTags(Set<LocalTag> tags) {
         this.tags = tags;
     }
 
@@ -301,7 +301,7 @@ public class Post implements Serializable {
 
     @Override
     public String toString() {
-        return "Post{" +
+        return "LocalPost{" +
                 "postId=" + postId +
                 ", userId=" + userId +
                 ", postTitle='" + postTitle + '\'' +
@@ -322,15 +322,15 @@ public class Post implements Serializable {
     }
 
     public static Builder getBuilder(Long userId, String postTitle, String postName, String postLink, String postContent, PostType postType, PostDisplayType displayType) {
-        return new Post.Builder(userId, postTitle, postName, postLink, postContent, postType, displayType);
+        return new LocalPost.Builder(userId, postTitle, postName, postLink, postContent, postType, displayType);
     }
 
     public static class Builder {
 
-        private Post built;
+        private LocalPost built;
 
         public Builder(Long userId, String postTitle, String postName, String postLink, String postContent, PostType postType, PostDisplayType displayType) {
-            built = new Post();
+            built = new LocalPost();
             built.userId = userId;
             built.postTitle = postTitle;
             built.postName = postName;
@@ -363,12 +363,12 @@ public class Post implements Serializable {
             return this;
         }
 
-        public Builder tags(Set<Tag> tags) {
+        public Builder tags(Set<LocalTag> tags) {
             built.tags= tags;
             return this;
         }
 
-        public Post build() {
+        public LocalPost build() {
             return built;
         }
     }

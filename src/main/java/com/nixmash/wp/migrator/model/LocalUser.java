@@ -15,10 +15,10 @@ import java.util.LinkedHashSet;
 
 @Entity
 @Table(name = "users")
-public class User implements UserDetails, Serializable {
+public class LocalUser implements UserDetails, Serializable {
 
     private static final long serialVersionUID = 2002390446280945447L;
-    private static final Logger logger = LoggerFactory.getLogger(User.class);
+    private static final Logger logger = LoggerFactory.getLogger(LocalUser.class);
 
     public static final int MAX_LENGTH_EMAIL_ADDRESS = 100;
     public static final int MAX_LENGTH_FIRST_NAME = 25;
@@ -112,11 +112,11 @@ public class User implements UserDetails, Serializable {
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
     public UserData userData;
 
-    public User() {
+    public LocalUser() {
         this.authorities = new LinkedHashSet<>();
     }
 
-    public User(String username, String password, String firstName, String lastName) {
+    public LocalUser(String username, String password, String firstName, String lastName) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -259,7 +259,7 @@ public class User implements UserDetails, Serializable {
     
     @Override
     public String toString() {
-        return "User{" +
+        return "LocalUser{" +
                 "id=" + id +
                 ", username=" + username +
                 ", email=" + email +

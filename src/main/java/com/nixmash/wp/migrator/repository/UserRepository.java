@@ -15,7 +15,7 @@
  */
 package com.nixmash.wp.migrator.repository;
 
-import com.nixmash.wp.migrator.model.User;
+import com.nixmash.wp.migrator.model.LocalUser;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
@@ -24,32 +24,32 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public interface UserRepository extends Repository<User, Long> {
+public interface UserRepository extends Repository<LocalUser, Long> {
 
-    User findByUsername(String username) throws DataAccessException;
+    LocalUser findByUsername(String username) throws DataAccessException;
 
-    Collection<User> findAll() throws DataAccessException;
+    Collection<LocalUser> findAll() throws DataAccessException;
 
-    User findById(Long id) throws DataAccessException;
+    LocalUser findById(Long id) throws DataAccessException;
 
-    User save(User user) throws DataAccessException;
+    LocalUser save(LocalUser user) throws DataAccessException;
 
-    User delete(User user) throws DataAccessException;
+    LocalUser delete(LocalUser user) throws DataAccessException;
 
     boolean exists(Long userId) throws DataAccessException;
 
-    @Query("select distinct u from User u left join fetch " +
+    @Query("select distinct u from LocalUser u left join fetch " +
             "u.authorities left join fetch u.userProfile p")
-    List<User> getUsersWithDetail();
+    List<LocalUser> getUsersWithDetail();
 
-    @Query("select distinct u from User u left join fetch " +
+    @Query("select distinct u from LocalUser u left join fetch " +
             "u.authorities left join fetch u.userProfile p where u.id = ?1")
-    Optional<User> findByUserIdWithDetail(Long ID);
+    Optional<LocalUser> findByUserIdWithDetail(Long ID);
 
-    Optional<User> findOneByEmail(String email);
+    Optional<LocalUser> findOneByEmail(String email);
 
-    @Query("select distinct u from User u left join u.authorities a where a.id = ?1")
-    List<User> findByAuthorityId(Long id);
+    @Query("select distinct u from LocalUser u left join u.authorities a where a.id = ?1")
+    List<LocalUser> findByAuthorityId(Long id);
 
-    Optional<User> findOneByUserKey(String userKey);
+    Optional<LocalUser> findOneByUserKey(String userKey);
 }

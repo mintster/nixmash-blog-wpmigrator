@@ -16,25 +16,25 @@ import static javax.persistence.GenerationType.IDENTITY;
                         " inner join posts p on pt.post_id = p.post_id " +
                         " where p.is_published = true " +
                         "group by t.tag_value order by t.tag_value;",
-                resultClass = Tag.class)
+                resultClass = LocalTag.class)
 })
-public class Tag implements Serializable {
+public class LocalTag implements Serializable {
 
     private static final long serialVersionUID = -5531381747015731447L;
 
     private long tagId;
     private String tagValue;
-    private Set<Post> posts;
+    private Set<LocalPost> posts;
     private int tagCount = 0;
 
-    public Tag() {
+    public LocalTag() {
     }
 
-    public Tag(String tagValue) {
+    public LocalTag(String tagValue) {
         this.tagValue = tagValue;
     }
 
-    public Tag(Long tagId, String tagValue) {
+    public LocalTag(Long tagId, String tagValue) {
         this.tagId = tagId;
         this.tagValue = tagValue;
     }
@@ -61,11 +61,11 @@ public class Tag implements Serializable {
     }
 
     @ManyToMany(mappedBy = "tags")
-    public Set<Post> getPosts() {
+    public Set<LocalPost> getPosts() {
         return posts;
     }
 
-    public void setPosts(Set<Post> posts) {
+    public void setPosts(Set<LocalPost> posts) {
         this.posts = posts;
     }
 
@@ -93,15 +93,15 @@ public class Tag implements Serializable {
 
     public static class Builder {
 
-        private Tag built;
+        private LocalTag built;
 
         public Builder(Long tagId, String tagValue) {
-            built = new Tag();
+            built = new LocalTag();
             built.tagId = tagId;
             built.tagValue = tagValue;
         }
 
-        public Tag build() {
+        public LocalTag build() {
             return built;
         }
     }

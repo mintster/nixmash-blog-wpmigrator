@@ -1,5 +1,8 @@
 package com.nixmash.wp.migrator.config.db;
 
+import com.nixmash.wp.migrator.auditors.AuditingDateTimeProvider;
+import com.nixmash.wp.migrator.auditors.DateTimeService;
+import com.nixmash.wp.migrator.auditors.UsernameAuditorAware;
 import org.hibernate.dialect.Dialect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +12,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.data.auditing.DateTimeProvider;
+import org.springframework.data.domain.AuditorAware;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -22,6 +28,7 @@ import static java.lang.Boolean.TRUE;
 import static org.hibernate.cfg.AvailableSettings.*;
 
 @Configuration
+@EnableJpaAuditing(dateTimeProviderRef = "dateTimeProvider")
 @EnableSpringDataWebSupport
 public abstract class JpaCommonConfig {
 
@@ -42,8 +49,18 @@ public abstract class JpaCommonConfig {
     @Value("#{ environment['entity.package'] }")
     private String entityPackage;
 
-    @Bean(destroyMethod = "close")
+    @Bean
     public abstract DataSource dataSource();
+
+    @Bean
+    AuditorAware<String> auditorProvider() {
+        return new UsernameAuditorAware();
+    }
+
+    @Bean
+    DateTimeProvider dateTimeProvider(DateTimeService dateTimeService) {
+        return new AuditingDateTimeProvider(dateTimeService);
+    }
 
     @Bean
     @Qualifier(value = "jpaTransactionManager")
@@ -54,7 +71,6 @@ public abstract class JpaCommonConfig {
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-//        logger.debug("\n\n************ {} ************\n\n",  getDatabaseDialect().getCanonicalName());
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         vendorAdapter.setGenerateDdl(false);
         vendorAdapter.setDatabasePlatform(getDatabaseDialect().getName());
@@ -63,7 +79,6 @@ public abstract class JpaCommonConfig {
         LocalContainerEntityManagerFactoryBean factory =
                 new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(vendorAdapter);
-//        logger.debug("\n\n****** Scanning '{}' Packages for Entities ******\n\n", entityPackage);
         factory.setPackagesToScan(entityPackage);
         factory.setDataSource(dataSource());
         if (getJpaProperties() != null) {
@@ -84,7 +99,7 @@ public abstract class JpaCommonConfig {
         properties.setProperty(FORMAT_SQL, TRUE.toString());
         properties.setProperty(USE_SQL_COMMENTS, TRUE.toString());
         properties.setProperty(CONNECTION_CHAR_SET, getHibernateCharSet());
-//        properties.setProperty(NAMING_STRATEGY, ImprovedNamingStrategy.class.getName());
+//        properties.setProperty(NAME, ImprovedNamingStrategy.class.getName());
         return properties;
     }
 

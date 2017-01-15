@@ -1,7 +1,7 @@
 package com.nixmash.wp.migrator.repository;
 
 import com.nixmash.wp.migrator.enums.PostType;
-import com.nixmash.wp.migrator.model.Post;
+import com.nixmash.wp.migrator.model.LocalPost;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,39 +14,40 @@ import java.util.List;
 /**
  * Created by daveburke on 5/31/16.
  */
-public interface PostRepository extends PagingAndSortingRepository<Post, Long> {
+public interface PostRepository extends PagingAndSortingRepository<LocalPost, Long> {
 
-    Post findByPostId(Long postId) throws DataAccessException;
+    LocalPost findByPostId(Long postId) throws DataAccessException;
 
-    @Query("select distinct p from Post p left join fetch p.tags t")
-    List<Post> findAllWithDetail();
+    @Query("select distinct p from LocalPost p left join fetch p.tags t")
+    List<LocalPost> findAllWithDetail();
 
-    Post findByPostNameIgnoreCase(String postName) throws DataAccessException;
+    LocalPost findByPostNameIgnoreCase(String postName) throws DataAccessException;
 
-    @Query("select distinct p from Post p left join p.tags t where p.isPublished = true and t.tagId = ?1")
-    Page<Post> findByTagId(long tagId, Pageable pageable);
+    @Query("select distinct p from LocalPost p left join p.tags t where p.isPublished = true and t.tagId = ?1")
+    Page<LocalPost> findByTagId(long tagId, Pageable pageable);
 
-    @Query("select distinct p from Post p left join p.tags t where p.isPublished = true and t.tagId = ?1")
-    List<Post> findAllByTagId(long tagId);
+    @Query("select distinct p from LocalPost p left join p.tags t where p.isPublished = true and t.tagId = ?1")
+    List<LocalPost> findAllByTagId(long tagId);
 
-    List<Post> findAll(Sort sort);
+    List<LocalPost> findAll(Sort sort);
+    List<LocalPost> findAll();
 
-    List<Post> findByIsPublishedTrue(Sort sort);
+    List<LocalPost> findByIsPublishedTrue(Sort sort);
 
-    Page<Post> findByIsPublishedTrue(Pageable pageable);
+    Page<LocalPost> findByIsPublishedTrue(Pageable pageable);
 
     @Query(value = "SELECT " +
             "GROUP_CONCAT(distinct(upper(substr(post_title,1,1))) SEPARATOR '')" +
             " FROM posts WHERE is_published = true", nativeQuery = true)
     String getAlphaLinkString();
 
-    @Query("select distinct p from Post p where p.displayType = 'SINGLEPHOTO_POST'")
-    List<Post> findSinglePhotoPosts(Sort sort);
+    @Query("select distinct p from LocalPost p where p.displayType = 'SINGLEPHOTO_POST'")
+    List<LocalPost> findSinglePhotoPosts(Sort sort);
 
-    @Query("select distinct p from Post p left join p.tags t where p.isPublished = true and p.postType = ?1")
-    List<Post> findAllPublishedByPostType(PostType postType);
+    @Query("select distinct p from LocalPost p left join p.tags t where p.isPublished = true and p.postType = ?1")
+    List<LocalPost> findAllPublishedByPostType(PostType postType);
 
-    @Query("select distinct p from Post p left join p.tags t where p.isPublished = true and p.postType = ?1")
-    Page<Post> findPublishedByPostTypePaged(PostType postType, Pageable pageable);
+    @Query("select distinct p from LocalPost p left join p.tags t where p.isPublished = true and p.postType = ?1")
+    Page<LocalPost> findPublishedByPostTypePaged(PostType postType, Pageable pageable);
 
 }

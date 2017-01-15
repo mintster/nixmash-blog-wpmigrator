@@ -27,7 +27,7 @@ public class UserProfile implements Serializable {
 
     @OneToOne
     @PrimaryKeyJoinColumn
-    private User user;
+    private LocalUser user;
 
     @Column
     private String address;
@@ -52,15 +52,15 @@ public class UserProfile implements Serializable {
     public UserProfile() {
     }
 
-    public UserProfile(User user) {
+    public UserProfile(LocalUser user) {
         this.user = user;
     }
 
-    public User getUser() {
+    public LocalUser getUser() {
         return this.user;
     }
 
-    public void setUser(User user) {
+    public void setUser(LocalUser user) {
         this.user = user;
     }
 
