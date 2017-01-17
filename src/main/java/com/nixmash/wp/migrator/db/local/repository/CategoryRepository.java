@@ -1,6 +1,6 @@
-package com.nixmash.wp.migrator.repository;
+package com.nixmash.wp.migrator.db.local.repository;
 
-import com.nixmash.wp.migrator.model.LocalCategory;
+import com.nixmash.wp.migrator.db.local.model.LocalCategory;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Set;

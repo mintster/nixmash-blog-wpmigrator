@@ -1,7 +1,7 @@
-package com.nixmash.wp.migrator.repository;
+package com.nixmash.wp.migrator.db.local.repository;
 
 import com.nixmash.wp.migrator.enums.PostType;
-import com.nixmash.wp.migrator.model.LocalPost;
+import com.nixmash.wp.migrator.db.local.model.LocalPost;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

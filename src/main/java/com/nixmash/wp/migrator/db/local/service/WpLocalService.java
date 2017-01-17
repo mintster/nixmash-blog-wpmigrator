@@ -1,10 +1,10 @@
-package com.nixmash.wp.migrator.service;
+package com.nixmash.wp.migrator.db.local.service;
 
 
-import com.nixmash.wp.migrator.model.LocalCategory;
-import com.nixmash.wp.migrator.model.LocalPost;
-import com.nixmash.wp.migrator.model.LocalTag;
-import com.nixmash.wp.migrator.model.LocalUser;
+import com.nixmash.wp.migrator.db.local.model.LocalCategory;
+import com.nixmash.wp.migrator.db.local.model.LocalPost;
+import com.nixmash.wp.migrator.db.local.model.LocalTag;
+import com.nixmash.wp.migrator.db.local.model.LocalUser;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;

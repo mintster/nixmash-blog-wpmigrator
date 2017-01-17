@@ -9,14 +9,12 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
-import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @EnableConfigurationProperties
-@ComponentScan({"org.kamranzafar.spring.wpapi", "com.nixmash.wp.migrator"})
+@ComponentScan(basePackages = {"org.kamranzafar.spring.wpapi", "com.nixmash.wp.migrator"})
 public class Application  {
 
     private static final Logger logger = LoggerFactory.getLogger(Application.class);
@@ -26,11 +24,6 @@ public class Application  {
     @Autowired
     public Application(Environment environment) {
         this.environment = environment;
-    }
-
-    @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
     }
 
     public static void main(String[] args) {

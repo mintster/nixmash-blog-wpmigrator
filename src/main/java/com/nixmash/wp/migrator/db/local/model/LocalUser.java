@@ -1,4 +1,4 @@
-package com.nixmash.wp.migrator.model;
+package com.nixmash.wp.migrator.db.local.model;
 
 import com.nixmash.wp.migrator.enums.Role;
 import com.nixmash.wp.migrator.enums.SignInProvider;

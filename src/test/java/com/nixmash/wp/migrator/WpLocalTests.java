@@ -1,10 +1,10 @@
 package com.nixmash.wp.migrator;
 
-import com.nixmash.wp.migrator.model.LocalCategory;
-import com.nixmash.wp.migrator.model.LocalPost;
-import com.nixmash.wp.migrator.model.LocalTag;
-import com.nixmash.wp.migrator.model.LocalUser;
-import com.nixmash.wp.migrator.service.WpLocalService;
+import com.nixmash.wp.migrator.db.local.model.LocalCategory;
+import com.nixmash.wp.migrator.db.local.model.LocalPost;
+import com.nixmash.wp.migrator.db.local.model.LocalTag;
+import com.nixmash.wp.migrator.db.local.model.LocalUser;
+import com.nixmash.wp.migrator.db.local.service.WpLocalService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,13 +1,13 @@
-package com.nixmash.wp.migrator.service;
+package com.nixmash.wp.migrator.db.local.service;
 
-import com.nixmash.wp.migrator.model.LocalCategory;
-import com.nixmash.wp.migrator.model.LocalPost;
-import com.nixmash.wp.migrator.model.LocalTag;
-import com.nixmash.wp.migrator.model.LocalUser;
-import com.nixmash.wp.migrator.repository.CategoryRepository;
-import com.nixmash.wp.migrator.repository.PostRepository;
-import com.nixmash.wp.migrator.repository.TagRepository;
-import com.nixmash.wp.migrator.repository.UserRepository;
+import com.nixmash.wp.migrator.db.local.model.LocalCategory;
+import com.nixmash.wp.migrator.db.local.model.LocalPost;
+import com.nixmash.wp.migrator.db.local.model.LocalTag;
+import com.nixmash.wp.migrator.db.local.model.LocalUser;
+import com.nixmash.wp.migrator.db.local.repository.CategoryRepository;
+import com.nixmash.wp.migrator.db.local.repository.PostRepository;
+import com.nixmash.wp.migrator.db.local.repository.TagRepository;
+import com.nixmash.wp.migrator.db.local.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

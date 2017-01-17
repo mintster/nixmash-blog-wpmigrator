@@ -1,4 +1,4 @@
-package com.nixmash.wp.migrator.config.db;
+package com.nixmash.wp.migrator.config;
 
 import com.nixmash.wp.migrator.auditors.AuditingDateTimeProvider;
 import com.nixmash.wp.migrator.auditors.DateTimeService;
@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.data.auditing.DateTimeProvider;
 import org.springframework.data.domain.AuditorAware;
@@ -30,15 +31,12 @@ import static org.hibernate.cfg.AvailableSettings.*;
 @Configuration
 @EnableJpaAuditing(dateTimeProviderRef = "dateTimeProvider")
 @EnableSpringDataWebSupport
-public abstract class JpaCommonConfig {
+public abstract class JpaTestConfig {
 
     // region Constants
 
-    private static final Logger logger = LoggerFactory.getLogger(JpaCommonConfig.class);
     public static final String UNDEFINED = "**UNDEFINED**";
     public static final String CONNECTION_CHAR_SET = "hibernate.connection.charSet";
-    public static final String VALIDATOR_APPLY_TO_DDL = "hibernate.validator.apply_to_ddl";
-    public static final String VALIDATOR_AUTOREGISTER_LISTENERS = "hibernate.validator.autoregister_listeners";
     public static final String ZERO_DATETIME_BEHAVIOR = "hibernate.connection.zeroDateTimeBehavior";
 
     // endregion

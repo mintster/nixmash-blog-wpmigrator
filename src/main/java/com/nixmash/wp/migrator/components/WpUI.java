@@ -1,8 +1,8 @@
 package com.nixmash.wp.migrator.components;
 
-import com.nixmash.wp.migrator.model.LocalPost;
+import com.nixmash.wp.migrator.db.local.model.LocalPost;
 import com.nixmash.wp.migrator.service.WpImportService;
-import com.nixmash.wp.migrator.service.WpLocalService;
+import com.nixmash.wp.migrator.db.local.service.WpLocalService;
 import org.kamranzafar.spring.wpapi.Category;
 import org.kamranzafar.spring.wpapi.Post;
 import org.kamranzafar.spring.wpapi.Tag;
@@ -28,9 +28,10 @@ public class WpUI {
     }
 
     public void init() {
-        showWpPosts();
-        showWpTags();
-        showWpCategories();
+        showLocalPosts();
+//        showWpPosts();
+//        showWpTags();
+//        showWpCategories();
     }
 
     private void showWpPosts() {
@@ -43,8 +44,8 @@ public class WpUI {
 
     private void showWpTags() {
         printHeading("tags");
-        Tag[] tags= wpImportService.getTags(10);
-        for (Tag tag: tags) {
+        Tag[] tags = wpImportService.getTags(10);
+        for (Tag tag : tags) {
             System.out.println(MessageFormat.format("{0} : {1} : {2}", tag.getId(), tag.getName(), tag.getTaxonomy()));
         }
     }
@@ -52,7 +53,7 @@ public class WpUI {
     private void showWpCategories() {
         printHeading("categories");
         Category[] categories = wpImportService.getCategories(10);
-        for (Category category: categories) {
+        for (Category category : categories) {
             System.out.println(MessageFormat.format("{0} : {1} : {2}", category.getId(), category.getName(), category.getTaxonomy()));
         }
     }

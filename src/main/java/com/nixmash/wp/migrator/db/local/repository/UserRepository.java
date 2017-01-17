@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.nixmash.wp.migrator.repository;
+package com.nixmash.wp.migrator.db.local.repository;
 
-import com.nixmash.wp.migrator.model.LocalUser;
+import com.nixmash.wp.migrator.db.local.model.LocalUser;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;

@@ -1,4 +1,4 @@
-package com.nixmash.wp.migrator.model;
+package com.nixmash.wp.migrator.db.local.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
