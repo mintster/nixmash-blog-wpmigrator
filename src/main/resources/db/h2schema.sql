@@ -135,6 +135,7 @@ CREATE TABLE tags
 (
   tag_id BIGINT(20) NOT NULL AUTO_INCREMENT,
   tag_value VARCHAR(50) NOT NULL,
+  wp_tag_id BIGINT(20) NOT NULL,
   PRIMARY KEY (tag_id)
 );
 
@@ -147,6 +148,24 @@ CREATE TABLE post_tag_ids
   PRIMARY KEY (post_tag_id),
   CONSTRAINT fk_posts_post_id FOREIGN KEY (post_id) REFERENCES posts (post_id),
   CONSTRAINT fk_tags_tag_id FOREIGN KEY (tag_id) REFERENCES tags (tag_id)
+);
+
+CREATE TABLE categories
+(
+  category_id BIGINT(20) NOT NULL AUTO_INCREMENT,
+  category_value VARCHAR(50) NOT NULL,
+  wp_category_id BIGINT(20) NOT NULL,
+  PRIMARY KEY (category_id)
+);
+
+CREATE TABLE post_category_ids
+(
+  post_category_id BIGINT(20) NOT NULL AUTO_INCREMENT,
+  post_id BIGINT(20) NOT NULL,
+  category_id BIGINT(20) NOT NULL,
+  PRIMARY KEY (post_category_id),
+  CONSTRAINT fk_categories_post_id FOREIGN KEY (post_id) REFERENCES posts (post_id),
+  CONSTRAINT fk_categories_category_id FOREIGN KEY (category_id) REFERENCES categories (category_id)
 );
 
 CREATE TABLE user_likes (

@@ -17,7 +17,19 @@ apply plugin: 'application'
 apply plugin: 'idea'
 
 jar {
-	baseName = 'wpSpring'
+	manifest {
+		attributes 'Main-Class': 'com.nixmash.wp.migrator.Application'
+	}
+	baseName = 'wpspring'
+}
+
+springBoot {
+	mainClass = 'com.nixmash.wp.migrator.Application'
+}
+
+
+bootRepackage  {
+	classifier = 'exec'
 }
 
 sourceCompatibility = 1.8
@@ -36,7 +48,8 @@ dependencies {
 	compile 'org.springframework.boot:spring-boot-starter-web'
 	runtime 'org.springframework.boot:spring-boot-devtools'
 
-	compile 'org.kamranzafar.spring.wpapi:spring-wpapi-client:0.1'
+	compile fileTree(dir: 'libs', include: '*.jar')
+//	compile 'org.kamranzafar.spring.wpapi:spring-wpapi-client:0.1'
 
 	compile 'commons-dbcp:commons-dbcp:1.4'
 	compile 'org.apache.tomcat:tomcat-dbcp:8.5.4'

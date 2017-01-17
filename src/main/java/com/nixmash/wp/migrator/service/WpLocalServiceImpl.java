@@ -1,8 +1,10 @@
 package com.nixmash.wp.migrator.service;
 
+import com.nixmash.wp.migrator.model.LocalCategory;
 import com.nixmash.wp.migrator.model.LocalPost;
 import com.nixmash.wp.migrator.model.LocalTag;
 import com.nixmash.wp.migrator.model.LocalUser;
+import com.nixmash.wp.migrator.repository.CategoryRepository;
 import com.nixmash.wp.migrator.repository.PostRepository;
 import com.nixmash.wp.migrator.repository.TagRepository;
 import com.nixmash.wp.migrator.repository.UserRepository;
@@ -29,12 +31,14 @@ public class WpLocalServiceImpl implements WpLocalService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final TagRepository tagRepository;
+    private final CategoryRepository categoryRepository;
 
     @Autowired
-    public WpLocalServiceImpl(PostRepository postRepository, UserRepository userRepository, TagRepository tagRepository) {
+    public WpLocalServiceImpl(PostRepository postRepository, UserRepository userRepository, TagRepository tagRepository, CategoryRepository categoryRepository) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
         this.tagRepository = tagRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     // region Posts
@@ -63,6 +67,16 @@ public class WpLocalServiceImpl implements WpLocalService {
     @Transactional(readOnly = true)
     public Set<LocalTag> getLocalTags() {
         return tagRepository.findAll();
+    }
+
+    // endregion
+
+    // region Categories
+
+    @Override
+    @Transactional(readOnly = true)
+    public  Set<LocalCategory> getLocalCategories() {
+        return categoryRepository.findAll();
     }
 
     // endregion

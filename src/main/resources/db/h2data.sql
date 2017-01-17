@@ -69,8 +69,10 @@ VALUES (1, 2, 'Sample Test Post', 'sample-test-post', NULL, '2016-09-30 17:40:18
             '2016-09-30 17:40:18', 'POST', 'POST', 1,
             '<p><strong>This is a post</strong> for <em>H2 Integration Testing</em></p>', 'NA', NULL, 0, 0, 0, 0);
 
-INSERT INTO tags (tag_id, tag_value) VALUES (1, 'h2sampletag');
-
+INSERT INTO tags (tag_id, tag_value, wp_tag_id) VALUES (1, 'Sample Tag', 200);
 INSERT INTO post_tag_ids (post_id, tag_id) VALUES (1, 1);
+
+INSERT INTO categories (category_id, category_value, wp_category_id) VALUES (1, 'Sample Category', 100);
+INSERT INTO post_category_ids (post_id, category_id) VALUES (1, 1);
 
 

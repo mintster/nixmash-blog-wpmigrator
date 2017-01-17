@@ -20,7 +20,7 @@ public class WpImportTests extends WpSpringContext {
     private WpImportService wpImportService;
 
     @Test
-    public void getPostsNotNull() throws Exception {
+    public void getimportPostsTests() throws Exception {
         Post[] posts = wpImportService.getPosts(10);
         assertNotNull(posts);
         assertEquals(posts.length, 10);

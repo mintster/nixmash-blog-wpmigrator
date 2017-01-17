@@ -10,4 +10,5 @@ public interface TagRepository extends CrudRepository<LocalTag, Long> {
     LocalTag findByTagValueIgnoreCase(String tagValue);
 
     Set<LocalTag> findAll();
+
 }

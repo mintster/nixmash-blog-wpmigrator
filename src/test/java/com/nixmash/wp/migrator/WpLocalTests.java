@@ -1,5 +1,6 @@
 package com.nixmash.wp.migrator;
 
+import com.nixmash.wp.migrator.model.LocalCategory;
 import com.nixmash.wp.migrator.model.LocalPost;
 import com.nixmash.wp.migrator.model.LocalTag;
 import com.nixmash.wp.migrator.model.LocalUser;
@@ -26,7 +27,7 @@ public class WpLocalTests extends WpSpringContext {
     @Autowired
     private WpLocalService wpLocalService;
 
-    // region retrieve Posts, Users and Tags
+    // region retrieve Posts, Users , Categories and Tags
 
     @Test
     public void getLocalPostsTest() throws Exception {
@@ -43,6 +44,13 @@ public class WpLocalTests extends WpSpringContext {
     }
 
     @Test
+    public void getLocalCategoriesTest() throws Exception {
+        Set<LocalCategory> categories= wpLocalService.getLocalCategories();
+        assertNotNull(categories);
+        assertThat(categories.size(), greaterThan(0));
+    }
+
+    @Test
     public void getLocalUsersTest() throws Exception {
         Collection<LocalUser> users = wpLocalService.getLocalUsers();
         assertNotNull(users);
@@ -50,5 +58,6 @@ public class WpLocalTests extends WpSpringContext {
     }
 
     // endregion
+
 
 }

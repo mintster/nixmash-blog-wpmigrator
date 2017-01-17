@@ -14,13 +14,6 @@ CREATE TABLE `authorities` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
--- Records of authorities
--- ----------------------------
-INSERT INTO `authorities` VALUES ('1', 'ROLE_ADMIN','1');
-INSERT INTO `authorities` VALUES ('2', 'ROLE_USER','1');
-INSERT INTO `authorities` VALUES ('3', 'ROLE_POSTS','1');
-
--- ----------------------------
 -- Table structure for users
 -- ----------------------------
 DROP TABLE IF EXISTS `users`;
@@ -169,11 +162,24 @@ DROP TABLE IF EXISTS `tags`;
 CREATE TABLE `tags` (
   `tag_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `tag_value` varchar(50) NOT NULL,
+  `wp_tag_id` BIGINT(20),
   PRIMARY KEY (`tag_id`),
   UNIQUE KEY `tags_tag_id_uindex` (`tag_id`),
   UNIQUE KEY `tags_tag_value_uindex` (`tag_value`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
+-- ----------------------------
+-- Table structure for categories
+-- ----------------------------
+
+DROP TABLE IF EXISTS categories;
+CREATE TABLE categories
+(
+  category_id BIGINT(20) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  category_value VARCHAR(50) NOT NULL,
+  wp_category_id BIGINT(20)
+);
+CREATE UNIQUE INDEX categories_category_id_uindex ON categories (category_id);
 
 -- ----------------------------
 -- Table structure for post_tag_ids
@@ -246,6 +252,14 @@ CREATE UNIQUE INDEX user_tokens_token_id_uindex ON user_tokens (token_id);
 CREATE UNIQUE INDEX user_tokens_user_id_uindex ON user_tokens (user_id);
 
 
+
+-- ----------------------------
+-- Insert into authorities
+-- ----------------------------
+INSERT INTO `authorities` VALUES ('1', 'ROLE_ADMIN','1');
+INSERT INTO `authorities` VALUES ('2', 'ROLE_USER','1');
+INSERT INTO `authorities` VALUES ('3', 'ROLE_POSTS','1');
+
 -- ----------------------------
 -- Insert into users
 -- ----------------------------
@@ -275,6 +289,8 @@ INSERT INTO `site_options` VALUES ('5', 'userRegistration', 'EMAIL_VERIFICATION'
 
 INSERT INTO posts (post_id, user_id, post_title, post_name, post_link, post_date, post_modified, post_type, display_type, is_published, post_content, post_source, post_image, click_count, likes_count, value_rating, version) VALUES (1, 1, 'Sample Post', 'sample-post', null, '2016-06-29 13:11:09', '2016-08-31 16:29:06', 'POST', 'POST', 1, '<p>Here''s a sample post to be deleted later.</p>', 'NA', null, 0, 0, 0, 0);
 
-INSERT INTO tags (tag_id, tag_value) VALUES (1, 'Sample Tag');
-
+INSERT INTO tags (tag_id, tag_value, nixmashdb.tags.wp_tag_id) VALUES (1, 'Sample Tag', 200);
 INSERT INTO post_tag_ids (post_tag_id, post_id, tag_id) VALUES (1, 1, 1);
+
+INSERT INTO categories VALUES (1, 'Sample Category', 100);
+INSERT INTO post_category_ids (post_category_id, post_id, category_id) VALUES (1, 1, 1);

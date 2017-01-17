@@ -24,7 +24,7 @@ public class Application  {
     private final Environment environment;
 
     @Autowired
-    public Application(Environment environment, WpUI wpUI) {
+    public Application(Environment environment) {
         this.environment = environment;
     }
 

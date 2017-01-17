@@ -23,6 +23,7 @@ public class LocalTag implements Serializable {
     private static final long serialVersionUID = -5531381747015731447L;
 
     private long tagId;
+    private long wpTagId;
     private String tagValue;
     private Set<LocalPost> posts;
     private int tagCount = 0;
@@ -36,6 +37,12 @@ public class LocalTag implements Serializable {
 
     public LocalTag(Long tagId, String tagValue) {
         this.tagId = tagId;
+        this.tagValue = tagValue;
+    }
+
+    public LocalTag(long tagId, long wpTagId, String tagValue) {
+        this.tagId = tagId;
+        this.wpTagId = wpTagId;
         this.tagValue = tagValue;
     }
 
@@ -54,6 +61,16 @@ public class LocalTag implements Serializable {
     @Column(name = "tag_value", nullable = false, length = 50)
     public String getTagValue() {
         return tagValue;
+    }
+
+    @Basic
+    @Column(name = "wp_tag_id", nullable = false)
+    public long getWpTagId() {
+        return wpTagId;
+    }
+
+    public void setWpTagId(long wpTagId) {
+        this.wpTagId = wpTagId;
     }
 
     public void setTagValue(String tagValue) {
@@ -87,18 +104,19 @@ public class LocalTag implements Serializable {
         this.tagValue = tagValue;
     }
 
-    public static Builder getBuilder(Long tagId, String tagValue) {
-        return new Builder(tagId, tagValue);
+    public static Builder getBuilder(Long tagId, String tagValue, Long wpTagId) {
+        return new Builder(tagId, tagValue, wpTagId);
     }
 
     public static class Builder {
 
         private LocalTag built;
 
-        public Builder(Long tagId, String tagValue) {
+        public Builder(Long tagId, String tagValue, Long wpTagId) {
             built = new LocalTag();
             built.tagId = tagId;
             built.tagValue = tagValue;
+            built.wpTagId = wpTagId;
         }
 
         public LocalTag build() {

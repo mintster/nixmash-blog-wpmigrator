@@ -1,6 +1,7 @@
 package com.nixmash.wp.migrator.service;
 
 
+import com.nixmash.wp.migrator.model.LocalCategory;
 import com.nixmash.wp.migrator.model.LocalPost;
 import com.nixmash.wp.migrator.model.LocalTag;
 import com.nixmash.wp.migrator.model.LocalUser;
@@ -22,4 +23,7 @@ public interface WpLocalService {
 
     @Transactional(readOnly = true)
     Set<LocalTag> getLocalTags();
+
+    @Transactional(readOnly = true)
+    Set<LocalCategory> getLocalCategories();
 }

@@ -102,6 +102,16 @@ public class LocalPost implements Serializable {
                     nullable = false))
     public Set<LocalTag> tags;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "post_category_ids",
+            joinColumns = @JoinColumn(name = "post_id",
+                    referencedColumnName = "post_id",
+                    nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "category_id",
+                    referencedColumnName = "category_id",
+                    nullable = false))
+    public Set<LocalCategory> categories;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
     public LocalUser author;
@@ -284,6 +294,14 @@ public class LocalPost implements Serializable {
 
     public void setTags(Set<LocalTag> tags) {
         this.tags = tags;
+    }
+
+    public Set<LocalCategory> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<LocalCategory> categories) {
+        this.categories = categories;
     }
 
     //endregion
