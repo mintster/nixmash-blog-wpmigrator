@@ -27,7 +27,6 @@ springBoot {
 	mainClass = 'com.nixmash.wp.migrator.Application'
 }
 
-
 bootRepackage  {
 	classifier = 'exec'
 }

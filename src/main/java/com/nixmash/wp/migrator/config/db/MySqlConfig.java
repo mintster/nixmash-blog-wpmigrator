@@ -17,7 +17,7 @@ import javax.sql.DataSource;
 public class MySqlConfig extends JpaCommonConfig {
 
     @Override
-    @Bean(destroyMethod = "close")
+    @Bean
     public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName(getDriverClassName());
