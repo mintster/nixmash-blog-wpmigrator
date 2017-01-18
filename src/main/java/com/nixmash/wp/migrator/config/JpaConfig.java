@@ -117,8 +117,9 @@ public class JpaConfig {
     public static class JpaRepositoriesConfig {}
 
     @Configuration
-    @EnableJpaRepositories(entityManagerFactoryRef = "wpEntityManagerFactory", transactionManagerRef = "wpTransactionManager",
-            basePackages = "com.nixmash.wp.migrator.db.wp")
+    @EnableJpaRepositories(entityManagerFactoryRef = "wpEntityManagerFactory",
+                transactionManagerRef = "wpTransactionManager",
+                basePackages = "com.nixmash.wp.migrator.db.wp")
     public static class WpJpaRepositoriesConfig {}
 
     // endregion
