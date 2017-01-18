@@ -1,8 +1,9 @@
 package com.nixmash.wp.migrator.components;
 
 import com.nixmash.wp.migrator.db.local.model.LocalPost;
-import com.nixmash.wp.migrator.service.WpImportService;
+import com.nixmash.wp.migrator.db.local.model.LocalTag;
 import com.nixmash.wp.migrator.db.local.service.WpLocalService;
+import com.nixmash.wp.migrator.service.WpImportService;
 import org.kamranzafar.spring.wpapi.Category;
 import org.kamranzafar.spring.wpapi.Post;
 import org.kamranzafar.spring.wpapi.Tag;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by daveburke on 1/13/17.
@@ -29,6 +31,7 @@ public class WpUI {
 
     public void init() {
         showLocalPosts();
+        showLocalTags();
 //        showWpPosts();
 //        showWpTags();
 //        showWpCategories();
@@ -62,6 +65,13 @@ public class WpUI {
         List<LocalPost> posts = wpLocalService.getLocalPosts();
         for (LocalPost post : posts) {
             System.out.println(post.getPostTitle());
+        }
+    }
+
+    private void showLocalTags() {
+        Set<LocalTag> tags = wpLocalService.getLocalTags();
+        for (LocalTag tag : tags) {
+            System.out.println(tag.getTagValue());
         }
     }
 

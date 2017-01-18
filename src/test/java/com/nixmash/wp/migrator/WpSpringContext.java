@@ -1,7 +1,6 @@
 package com.nixmash.wp.migrator;
 
 import com.nixmash.wp.migrator.config.ApplicationConfig;
-import com.nixmash.wp.migrator.config.WpConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ContextConfiguration(
-		classes= { Application.class, WpConfig.class, ApplicationConfig.class})
+		classes= { Application.class, ApplicationConfig.class})
 @Transactional
 @ActiveProfiles("h2")
 public class WpSpringContext {
