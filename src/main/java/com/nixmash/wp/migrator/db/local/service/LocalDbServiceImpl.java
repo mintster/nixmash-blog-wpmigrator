@@ -24,9 +24,9 @@ import java.util.Set;
  */
 @Service("wpLocalService")
 @Transactional
-public class WpLocalServiceImpl implements WpLocalService {
+public class LocalDbServiceImpl implements LocalDbService {
 
-    private static final Logger logger = LoggerFactory.getLogger(WpLocalServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(LocalDbServiceImpl.class);
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
@@ -34,7 +34,7 @@ public class WpLocalServiceImpl implements WpLocalService {
     private final CategoryRepository categoryRepository;
 
     @Autowired
-    public WpLocalServiceImpl(PostRepository postRepository, UserRepository userRepository, TagRepository tagRepository, CategoryRepository categoryRepository) {
+    public LocalDbServiceImpl(PostRepository postRepository, UserRepository userRepository, TagRepository tagRepository, CategoryRepository categoryRepository) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
         this.tagRepository = tagRepository;

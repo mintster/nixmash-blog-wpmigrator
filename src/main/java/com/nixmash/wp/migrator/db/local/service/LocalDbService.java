@@ -14,7 +14,7 @@ import java.util.Set;
 /**
  * Created by daveburke on 1/13/17.
  */
-public interface WpLocalService {
+public interface LocalDbService {
 
     List<LocalPost> getLocalPosts();
 
