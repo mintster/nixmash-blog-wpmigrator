@@ -14,7 +14,7 @@ import static org.junit.Assert.assertNotNull;
  * Created by daveburke on 1/15/17.
  */
 @RunWith(SpringRunner.class)
-public class WpImportTests extends WpSpringContext {
+public class WpApiTests extends WpSpringContext {
 
     @Autowired
     private WpImportService wpImportService;

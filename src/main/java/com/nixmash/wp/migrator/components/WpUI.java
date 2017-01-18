@@ -34,7 +34,7 @@ public class WpUI {
     }
 
     public void init() {
-        showWpDbPosts();
+//        showWpDbPosts();
         showLocalDbPosts();
 //        showLocalDbTags();
 //        showWpApiPosts();

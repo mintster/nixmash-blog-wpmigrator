@@ -22,7 +22,7 @@ import static org.junit.Assert.assertThat;
  * Created by daveburke on 1/15/17.
  */
 @RunWith(SpringRunner.class)
-public class WpLocalTests extends WpSpringContext {
+public class LocalDbTests extends WpSpringContext {
 
     @Autowired
     private LocalDbService localDbService;
