@@ -1,6 +1,8 @@
 package com.nixmash.wp.migrator.db.wp.service;
 
+import com.nixmash.wp.migrator.db.wp.model.WpCategory;
 import com.nixmash.wp.migrator.db.wp.model.WpPost;
+import com.nixmash.wp.migrator.db.wp.repository.WpCategoryRepository;
 import com.nixmash.wp.migrator.db.wp.repository.WpPostRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -23,14 +25,21 @@ public class WpDbServiceImpl implements WpDbService {
     private EntityManager em;
 
     private final WpPostRepository wpPostRepository;
+    private final WpCategoryRepository wpCategoryRepository;
 
-    public WpDbServiceImpl(WpPostRepository wpPostRepository) {
+    public WpDbServiceImpl(WpPostRepository wpPostRepository, WpCategoryRepository wpCategoryRepository) {
         this.wpPostRepository = wpPostRepository;
+        this.wpCategoryRepository = wpCategoryRepository;
     }
 
     @Override
     public List<WpPost> getPublishedWpPosts() {
         return wpPostRepository.findPublishedPosts(sortById());
+    }
+
+    @Override
+    public List<WpCategory> getCategories() {
+        return wpCategoryRepository.findAll();
     }
 
     @Override

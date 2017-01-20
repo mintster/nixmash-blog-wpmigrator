@@ -5,4 +5,6 @@ package com.nixmash.wp.migrator.service;
  */
 public interface ImportService {
     void importPosts();
+    void importCategories();
+
 }

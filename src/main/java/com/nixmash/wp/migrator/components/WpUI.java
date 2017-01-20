@@ -5,6 +5,7 @@ import com.nixmash.wp.migrator.db.local.model.LocalTag;
 import com.nixmash.wp.migrator.db.local.service.LocalDbService;
 import com.nixmash.wp.migrator.db.wp.model.WpPost;
 import com.nixmash.wp.migrator.db.wp.service.WpDbService;
+import com.nixmash.wp.migrator.service.ImportService;
 import com.nixmash.wp.migrator.service.WpApiService;
 import org.kamranzafar.spring.wpapi.Category;
 import org.kamranzafar.spring.wpapi.Post;
@@ -25,23 +26,25 @@ public class WpUI {
     private final WpApiService wpApiService;
     private final LocalDbService localDbService;
     private final WpDbService wpDbService;
+    private final ImportService importService;
+
 
     @Autowired
-    public WpUI(WpApiService wpApiService, LocalDbService localDbService, WpDbService wpDbService) {
+    public WpUI(WpApiService wpApiService, LocalDbService localDbService, WpDbService wpDbService, ImportService importService) {
         this.wpApiService = wpApiService;
         this.localDbService = localDbService;
         this.wpDbService = wpDbService;
+        this.importService = importService;
     }
 
     public void init() {
-        showWpDbPosts();
-//        showLocalDbPosts();
-//        showLocalDbTags();
-//        showWpApiPosts();
-//        showWpApiTags();
-//        showWpApiCategories();
+        showWpDbCategories();
     }
 
+
+    private void showWpDbCategories() {
+        importService.importCategories();
+    }
 
     private void showWpDbPosts() {
         List<WpPost> posts = wpDbService.getPublishedWpPosts();
