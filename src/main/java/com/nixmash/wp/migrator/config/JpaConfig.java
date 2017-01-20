@@ -4,7 +4,6 @@ import com.nixmash.wp.migrator.auditors.AuditingDateTimeProvider;
 import com.nixmash.wp.migrator.auditors.DateTimeService;
 import com.nixmash.wp.migrator.auditors.UsernameAuditorAware;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -23,7 +22,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
 import java.util.Map;
 
@@ -36,7 +34,7 @@ public class JpaConfig {
     // region Constants
 
     private static final String LOCAL = "local";
-    private static final String WP = "wp";
+    public static final String WP = "wp";
 
     // endregion
 
@@ -66,16 +64,6 @@ public class JpaConfig {
 
     // region EntityManagerFactories
 
-    @Bean(name = "wpEntityManagerFactory")
-    LocalContainerEntityManagerFactoryBean wpEntityManagerFactory(
-            EntityManagerFactoryBuilder factory) {
-        return factory.dataSource(wpDataSource())
-                .packages("com.nixmash.wp.migrator.db.wp")
-                .properties(getVendorProperties(wpDataSource()))
-                .persistenceUnit(WP)
-                .build();
-    }
-
     @Bean(name = "entityManagerFactory")
     @Primary
     LocalContainerEntityManagerFactoryBean entityManagerFactory(
@@ -87,9 +75,25 @@ public class JpaConfig {
                 .build();
     }
 
+    @Bean(name = "wpEntityManagerFactory")
+    LocalContainerEntityManagerFactoryBean wpEntityManagerFactory(
+            EntityManagerFactoryBuilder factory) {
+        return factory.dataSource(wpDataSource())
+                .packages("com.nixmash.wp.migrator.db.wp")
+                .properties(getVendorProperties(wpDataSource()))
+                .persistenceUnit(WP)
+                .build();
+    }
+
     // endregion
 
-    // region PlatformTransactionManagers
+    // region TransactionManagers
+
+    @Bean
+    @Primary
+    public JpaTransactionManager transactionManager(EntityManagerFactory emf) {
+        return new JpaTransactionManager(emf);
+    }
 
     @Bean
     PlatformTransactionManager wpTransactionManager(EntityManagerFactoryBuilder factory) {
@@ -100,20 +104,12 @@ public class JpaConfig {
         return tm;
     }
 
-    @Bean
-    @Primary
-    public JpaTransactionManager transactionManager(EntityManagerFactory emf) {
-        return new JpaTransactionManager(emf);
-    }
-
     // endregion
 
     // region static JpaRepository Configuration Classes
 
     @Configuration
-    @EnableJpaRepositories(entityManagerFactoryRef = "entityManagerFactory",
-            transactionManagerRef = "transactionManager",
-        basePackages = "com.nixmash.wp.migrator.db.local")
+    @EnableJpaRepositories(basePackages = "com.nixmash.wp.migrator.db.local")
     public static class JpaRepositoriesConfig {}
 
     @Configuration
@@ -138,7 +134,7 @@ public class JpaConfig {
 
     // endregion
 
-    // region getProperties
+    // region Properties
 
     private Map<String, String> getVendorProperties(DataSource dataSource) {
         return jpaProperties.getHibernateProperties(dataSource);

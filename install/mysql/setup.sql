@@ -129,30 +129,31 @@ CREATE UNIQUE INDEX SiteOptionsOptionId ON site_options (option_id);
 -- ----------------------------
 -- Table structure for posts
 -- ----------------------------
-DROP TABLE IF EXISTS `posts`;
-CREATE TABLE `posts` (
-  `post_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) NOT NULL,
-  `post_title` varchar(200) NOT NULL,
-  `post_name` varchar(200) NOT NULL,
-  `post_link` varchar(255) DEFAULT NULL,
-  `post_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `post_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `post_type` varchar(20) NOT NULL DEFAULT 'LINK',
-  `display_type` varchar(20) NOT NULL DEFAULT 'LINK',
-  `is_published` tinyint(1) NOT NULL DEFAULT '0',
-  `post_content` text NOT NULL,
-  `post_source` varchar(50) NOT NULL DEFAULT 'NA',
-  `post_image` varchar(200) DEFAULT NULL,
-  `click_count` int(11) NOT NULL DEFAULT '0',
-  `likes_count` int(11) NOT NULL DEFAULT '0',
-  `value_rating` int(11) NOT NULL DEFAULT '0',
-  `version` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`post_id`),
-  UNIQUE KEY `posts_post_id_uindex` (`post_id`),
-  KEY `posts_users_user_id_fk` (`user_id`),
-  CONSTRAINT `posts_users_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+DROP TABLE IF EXISTS posts;
+CREATE TABLE posts
+(
+  post_id BIGINT(20) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  user_id BIGINT(20) NOT NULL,
+  post_title VARCHAR(200) NOT NULL,
+  post_name VARCHAR(200) NOT NULL,
+  post_link VARCHAR(255),
+  post_date TIMESTAMP DEFAULT '0000-00-00 00:00:00' NOT NULL,
+  post_modified TIMESTAMP DEFAULT '0000-00-00 00:00:00' NOT NULL,
+  post_type VARCHAR(20) DEFAULT 'LINK' NOT NULL,
+  display_type VARCHAR(20) DEFAULT 'LINK' NOT NULL,
+  is_published TINYINT(1) DEFAULT '0' NOT NULL,
+  post_content TEXT NOT NULL,
+  post_source VARCHAR(50) DEFAULT 'NA' NOT NULL,
+  post_image VARCHAR(200),
+  click_count INT(11) DEFAULT '0' NOT NULL,
+  likes_count INT(11) DEFAULT '0' NOT NULL,
+  value_rating INT(11) DEFAULT '0' NOT NULL,
+  version INT(11) DEFAULT '0' NOT NULL,
+  wp_post_id BIGINT(20) DEFAULT '0',
+  CONSTRAINT posts_users_user_id_fk FOREIGN KEY (user_id) REFERENCES users (user_id)
+);
+CREATE UNIQUE INDEX posts_post_id_uindex ON posts (post_id);
+CREATE INDEX posts_users_user_id_fk ON posts (user_id);
 
 -- ----------------------------
 -- Table structure for tags
@@ -287,10 +288,10 @@ INSERT INTO `site_options` VALUES ('5', 'userRegistration', 'EMAIL_VERIFICATION'
 -- Insert into posts, tags and post_tag_ids
 -- ----------------------------
 
-INSERT INTO posts (post_id, user_id, post_title, post_name, post_link, post_date, post_modified, post_type, display_type, is_published, post_content, post_source, post_image, click_count, likes_count, value_rating, version) VALUES (1, 1, 'Sample Post', 'sample-post', null, '2016-06-29 13:11:09', '2016-08-31 16:29:06', 'POST', 'POST', 1, '<p>Here''s a sample post to be deleted later.</p>', 'NA', null, 0, 0, 0, 0);
-
-INSERT INTO tags (tag_id, tag_value, nixmashdb.tags.wp_tag_id) VALUES (1, 'Sample Tag', 200);
-INSERT INTO post_tag_ids (post_tag_id, post_id, tag_id) VALUES (1, 1, 1);
-
-INSERT INTO categories VALUES (1, 'Sample Category', 100);
-INSERT INTO post_category_ids (post_category_id, post_id, category_id) VALUES (1, 1, 1);
+# INSERT INTO posts (post_id, user_id, post_title, post_name, post_link, post_date, post_modified, post_type, display_type, is_published, post_content, post_source, post_image, click_count, likes_count, value_rating, version) VALUES (1, 1, 'Sample Post', 'sample-post', null, '2016-06-29 13:11:09', '2016-08-31 16:29:06', 'POST', 'POST', 1, '<p>Here''s a sample post to be deleted later.</p>', 'NA', null, 0, 0, 0, 0);
+#
+# INSERT INTO tags (tag_id, tag_value, nixmashdb.tags.wp_tag_id) VALUES (1, 'Sample Tag', 200);
+# INSERT INTO post_tag_ids (post_tag_id, post_id, tag_id) VALUES (1, 1, 1);
+#
+# INSERT INTO categories VALUES (1, 'Sample Category', 100);
+# INSERT INTO post_category_ids (post_category_id, post_id, category_id) VALUES (1, 1, 1);

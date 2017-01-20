@@ -7,7 +7,7 @@ import org.kamranzafar.spring.wpapi.Tag;
 /**
  * Created by daveburke on 1/13/17.
  */
-public interface WpImportService {
+public interface WpApiService {
     Post[] getPosts(int count);
 
     Tag[] getTags(int count);

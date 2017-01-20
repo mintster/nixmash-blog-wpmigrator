@@ -27,7 +27,7 @@ public class WpSpringContext {
 	@Test
 	public void testContextLoads() throws Exception {
 		assertThat(this.ctx).isNotNull();
-		assertThat(this.ctx.containsBean("wpImportService")).isTrue();
+		assertThat(this.ctx.containsBean("wpApiService")).isTrue();
 		assertThat(this.ctx.containsBean("application")).isTrue();
 	}
 }

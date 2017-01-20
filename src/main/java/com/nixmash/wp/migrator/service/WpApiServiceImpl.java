@@ -13,13 +13,13 @@ import java.util.Map;
 /**
  * Created by daveburke on 1/13/17.
  */
-@Service("wpImportService")
+@Service("wpApiService")
 @Transactional
-public class WpImportServiceImpl implements WpImportService {
+public class WpApiServiceImpl implements WpApiService {
 
     private final WpApiClient wpApiClient;
 
-    public WpImportServiceImpl(WpApiClient wpApiClient) {
+    public WpApiServiceImpl(WpApiClient wpApiClient) {
         this.wpApiClient = wpApiClient;
     }
 

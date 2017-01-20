@@ -5,7 +5,7 @@ import com.nixmash.wp.migrator.db.local.model.LocalTag;
 import com.nixmash.wp.migrator.db.local.service.LocalDbService;
 import com.nixmash.wp.migrator.db.wp.model.WpPost;
 import com.nixmash.wp.migrator.db.wp.service.WpDbService;
-import com.nixmash.wp.migrator.service.WpImportService;
+import com.nixmash.wp.migrator.service.WpApiService;
 import org.kamranzafar.spring.wpapi.Category;
 import org.kamranzafar.spring.wpapi.Post;
 import org.kamranzafar.spring.wpapi.Tag;
@@ -22,20 +22,20 @@ import java.util.Set;
 @Component
 public class WpUI {
 
-    private final WpImportService wpImportService;
+    private final WpApiService wpApiService;
     private final LocalDbService localDbService;
     private final WpDbService wpDbService;
 
     @Autowired
-    public WpUI(WpImportService wpImportService, LocalDbService localDbService, WpDbService wpDbService) {
-        this.wpImportService = wpImportService;
+    public WpUI(WpApiService wpApiService, LocalDbService localDbService, WpDbService wpDbService) {
+        this.wpApiService = wpApiService;
         this.localDbService = localDbService;
         this.wpDbService = wpDbService;
     }
 
     public void init() {
-//        showWpDbPosts();
-        showLocalDbPosts();
+        showWpDbPosts();
+//        showLocalDbPosts();
 //        showLocalDbTags();
 //        showWpApiPosts();
 //        showWpApiTags();
@@ -44,15 +44,16 @@ public class WpUI {
 
 
     private void showWpDbPosts() {
-        List<WpPost> posts = wpDbService.getWpPosts();
+        List<WpPost> posts = wpDbService.getPublishedWpPosts();
         for (int i = 0; i < 10; i++) {
-            System.out.println(posts.get(i).getPostTitle());
+            WpPost post = posts.get(i);
+            System.out.println(MessageFormat.format("{0,number,#} : {1}", post.getPostId(), post.getPostTitle()));
         }
     }
 
     private void showWpApiPosts() {
         printHeading("post titles");
-        Post[] posts = wpImportService.getPosts(10);
+        Post[] posts = wpApiService.getPosts(10);
         for (Post post : posts) {
             System.out.println(MessageFormat.format("{0,number,#} : {1}", post.getId(), post.getTitle()));
         }
@@ -60,7 +61,7 @@ public class WpUI {
 
     private void showWpApiTags() {
         printHeading("tags");
-        Tag[] tags = wpImportService.getTags(10);
+        Tag[] tags = wpApiService.getTags(10);
         for (Tag tag : tags) {
             System.out.println(MessageFormat.format("{0} : {1} : {2}", tag.getId(), tag.getName(), tag.getTaxonomy()));
         }
@@ -68,7 +69,7 @@ public class WpUI {
 
     private void showWpApiCategories() {
         printHeading("categories");
-        Category[] categories = wpImportService.getCategories(10);
+        Category[] categories = wpApiService.getCategories(10);
         for (Category category : categories) {
             System.out.println(MessageFormat.format("{0} : {1} : {2}", category.getId(), category.getName(), category.getTaxonomy()));
         }

@@ -1,6 +1,6 @@
 package com.nixmash.wp.migrator;
 
-import com.nixmash.wp.migrator.service.WpImportService;
+import com.nixmash.wp.migrator.service.WpApiService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kamranzafar.spring.wpapi.Post;
@@ -17,11 +17,11 @@ import static org.junit.Assert.assertNotNull;
 public class WpApiTests extends WpSpringContext {
 
     @Autowired
-    private WpImportService wpImportService;
+    private WpApiService wpApiService;
 
     @Test
     public void getimportPostsTests() throws Exception {
-        Post[] posts = wpImportService.getPosts(10);
+        Post[] posts = wpApiService.getPosts(10);
         assertNotNull(posts);
         assertEquals(posts.length, 10);
     }

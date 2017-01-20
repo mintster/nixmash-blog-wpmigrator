@@ -28,8 +28,10 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -40,26 +42,25 @@ import static java.lang.Boolean.TRUE;
 import static org.hibernate.cfg.AvailableSettings.*;
 import static org.hibernate.cfg.AvailableSettings.FORMAT_SQL;
 import static org.hibernate.cfg.AvailableSettings.USE_SQL_COMMENTS;
-import static org.hibernate.jpa.AvailableSettings.NAMING_STRATEGY;
 
 @Configuration
 @EnableJpaAuditing(dateTimeProviderRef = "dateTimeProvider")
-@EnableSpringDataWebSupport
+@EnableTransactionManagement
 public class JpaTestConfig {
 
     // region Constants
 
-    private static final String LOCAL = "local";
-    private static final String WP = "wp";
+    public static final String LOCAL = "local";
+    public static final String WP = "wp";
 
-    public static final String UNDEFINED = "**UNDEFINED**";
-    public static final String CONNECTION_CHAR_SET = "hibernate.connection.charSet";
-    public static final String ZERO_DATETIME_BEHAVIOR = "hibernate.connection.zeroDateTimeBehavior";
+    private static final String UNDEFINED = "**UNDEFINED**";
+    private static final String CONNECTION_CHAR_SET = "hibernate.connection.charSet";
+    private static final String ZERO_DATETIME_BEHAVIOR = "hibernate.connection.zeroDateTimeBehavior";
 
     // endregion
 
     @Autowired
-    protected Environment environment;
+    private Environment environment;
 
     // region Beans
 
@@ -81,19 +82,20 @@ public class JpaTestConfig {
         return DataSourceBuilder.create().build();
     }
 
-//    @Bean(name = "wpEntityManagerFactory")
-//    LocalContainerEntityManagerFactoryBean wpEntityManagerFactory(
-//            EntityManagerFactoryBuilder factory) {
-//        return factory.dataSource(wpDataSource())
-//                .packages("com.nixmash.wp.migrator.db.wp")
-////                .properties(getVendorProperties(wpDataSource()))
-//                .properties(buildProperties())
-//                .persistenceUnit(WP)
-//                .build();
-//    }
+
+    @Bean(name = "entityManagerFactory")
+    @Primary
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(
+            EntityManagerFactoryBuilder factory) {
+        return factory.dataSource(dataSource())
+                .packages("com.nixmash.wp.migrator.db.local")
+                .properties(getVendorProperties(dataSource()))
+                .persistenceUnit(LOCAL)
+                .build();
+    }
 
     @Bean(name = "wpEntityManagerFactory")
-    LocalContainerEntityManagerFactoryBean wpEntityManagerFactory() {
+    public LocalContainerEntityManagerFactoryBean wpEntityManagerFactory() {
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         vendorAdapter.setGenerateDdl(false);
         vendorAdapter.setDatabasePlatform(MySQL5InnoDBDialect.class.getName());
@@ -104,23 +106,12 @@ public class JpaTestConfig {
         factory.setJpaVendorAdapter(vendorAdapter);
         factory.setPackagesToScan("com.nixmash.wp.migrator.db.wp");
         factory.setDataSource(wpDataSource());
+        factory.setPersistenceUnitName(WP);
         if (getJpaProperties() != null) {
             factory.setJpaProperties(getJpaProperties());
         }
         return factory;
     }
-
-    @Bean(name = "entityManagerFactory")
-    @Primary
-    LocalContainerEntityManagerFactoryBean entityManagerFactory(
-            EntityManagerFactoryBuilder factory) {
-        return factory.dataSource(dataSource())
-                .packages("com.nixmash.wp.migrator.db.local")
-                .properties(getVendorProperties(dataSource()))
-                .persistenceUnit(LOCAL)
-                .build();
-    }
-
 
     @Bean
     @Primary
@@ -128,8 +119,8 @@ public class JpaTestConfig {
         return new JpaTransactionManager(emf);
     }
 
-    @Bean
-    PlatformTransactionManager wpTransactionManager(EntityManagerFactoryBuilder factory) {
+    @Bean(name = "wpTransactionManager")
+    public PlatformTransactionManager wpTransactionManager(EntityManagerFactoryBuilder factory) {
         JpaTransactionManager tm = new JpaTransactionManager();
         tm.setEntityManagerFactory(wpEntityManagerFactory().getObject());
         tm.setDataSource(wpDataSource());

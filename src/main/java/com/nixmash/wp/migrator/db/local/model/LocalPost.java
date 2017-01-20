@@ -33,6 +33,7 @@ public class LocalPost implements Serializable {
     public static final int MAX_POST_TITLE_LENGTH = 200;
     public static final int MAX_POST_NAME_LENGTH = 200;
     public static final int MIN_POST_CONTENT_LENGTH = 20;
+    private static final String NA = "NA";
 
     // region properties
 
@@ -91,6 +92,9 @@ public class LocalPost implements Serializable {
     @Version
     @Column(name = "version", nullable = false, insertable = true, updatable = true)
     private int version = 0;
+
+    @Column(name = "wp_post_id", nullable = false)
+    private Long wpPostId = 0L;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "post_tag_ids",
@@ -304,6 +308,14 @@ public class LocalPost implements Serializable {
         this.categories = categories;
     }
 
+    public Long getWpPostId() {
+        return wpPostId;
+    }
+
+    public void setWpPostId(Long wpPostId) {
+        this.wpPostId = wpPostId;
+    }
+
     //endregion
 
     public void update(String postTitle, String postContent, Boolean isPublished, PostDisplayType displayType) {
@@ -324,7 +336,6 @@ public class LocalPost implements Serializable {
                 ", userId=" + userId +
                 ", postTitle='" + postTitle + '\'' +
                 ", postName='" + postName + '\'' +
-                ", postLink='" + postLink + '\'' +
                 ", postDate=" + postDate +
                 ", postModified=" + postModified +
                 ", postType='" + postType + '\'' +
@@ -332,31 +343,31 @@ public class LocalPost implements Serializable {
                 ", isPublished=" + isPublished +
                 ", postContent='" + postContent + '\'' +
                 ", postSource='" + postSource + '\'' +
-                ", clickCount=" + clickCount +
-                ", likesCount=" + likesCount +
-                ", valueRating=" + valueRating +
-                ", version=" + version +
+                ", wpPostId =" + wpPostId+
                 '}';
     }
 
-    public static Builder getBuilder(Long userId, String postTitle, String postName, String postLink, String postContent, PostType postType, PostDisplayType displayType) {
-        return new LocalPost.Builder(userId, postTitle, postName, postLink, postContent, postType, displayType);
+    public static Builder getBuilder(Long userId, String postTitle, String postName, ZonedDateTime postDate, ZonedDateTime postModified, Long wpPostId ) {
+        return new LocalPost.Builder(userId, postTitle, postName, postDate, postModified, wpPostId);
     }
 
     public static class Builder {
 
         private LocalPost built;
 
-        public Builder(Long userId, String postTitle, String postName, String postLink, String postContent, PostType postType, PostDisplayType displayType) {
+        public Builder(Long userId, String postTitle, String postName, ZonedDateTime postDate, ZonedDateTime postModified, Long wpPostId) {
             built = new LocalPost();
             built.userId = userId;
             built.postTitle = postTitle;
             built.postName = postName;
-            built.postLink = postLink;
-            built.postContent = postContent;
-            built.postType = postType;
-            built.displayType = displayType;
-            built.postSource = "na";
+            built.postLink = NA;
+            built.postContent = NA;
+            built.postType = PostType.POST;
+            built.displayType = PostDisplayType.POST;
+            built.postSource = NA;
+            built.postDate = postDate;
+            built.postModified = postModified;
+            built.wpPostId = wpPostId;
         }
 
         public Builder isPublished(Boolean isPublished) {

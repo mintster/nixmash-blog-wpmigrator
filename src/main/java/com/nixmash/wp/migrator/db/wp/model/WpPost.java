@@ -105,7 +105,7 @@ public class WpPost implements Serializable {
 
 
     @Basic
-    @Column(name = "post_title", columnDefinition = "MEDIUMTEXT")
+    @Column(name = "post_title", columnDefinition = "TEXT")
     public String getPostTitle() {
         return postTitle;
     }

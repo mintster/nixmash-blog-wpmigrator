@@ -49,6 +49,18 @@ public class LocalDbServiceImpl implements LocalDbService {
         return postRepository.findAll(sortByPostDateDesc());
     }
 
+    @Override
+    @Transactional
+    public LocalPost addLocalPost(LocalPost post) {
+        return postRepository.save(post);
+    }
+
+    @Override
+    @Transactional
+    public LocalPost getLocalPostByPostId(Long postId) {
+        return postRepository.findByPostId(postId);
+    }
+
     // endregion
 
     // region Users

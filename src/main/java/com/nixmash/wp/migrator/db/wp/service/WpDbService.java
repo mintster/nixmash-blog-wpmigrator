@@ -9,5 +9,7 @@ import java.util.List;
  */
 public interface WpDbService {
 
-    List<WpPost> getWpPosts();
+    List<WpPost> getPublishedWpPosts();
+
+    String getSampleTitle();
 }

@@ -18,6 +18,12 @@ public interface LocalDbService {
 
     List<LocalPost> getLocalPosts();
 
+    @Transactional
+    LocalPost addLocalPost(LocalPost post);
+
+    @Transactional
+    LocalPost getLocalPostByPostId(Long postId);
+
     @Transactional(readOnly = true)
     Collection<LocalUser> getLocalUsers();
 
