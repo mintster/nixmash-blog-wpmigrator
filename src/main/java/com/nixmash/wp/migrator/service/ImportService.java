@@ -7,4 +7,5 @@ public interface ImportService {
     void importPosts();
     void importCategories();
 
+    void importTags();
 }

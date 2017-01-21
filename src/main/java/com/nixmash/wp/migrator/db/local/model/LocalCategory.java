@@ -93,6 +93,10 @@ public class LocalCategory implements Serializable {
         return new Builder(categoryId, categoryValue);
     }
 
+    public static Builder getWpBuilder(String categoryValue, Long wpCategoryId) {
+        return new Builder(categoryValue, wpCategoryId);
+    }
+
     public static class Builder {
 
         private LocalCategory built;
@@ -101,6 +105,13 @@ public class LocalCategory implements Serializable {
             built = new LocalCategory();
             built.categoryId = categoryId;
             built.categoryValue = categoryValue;
+        }
+
+        public Builder(String categoryValue, Long wpCategoryId) {
+            built = new LocalCategory();
+            built.categoryId = 0L;
+            built.categoryValue = categoryValue;
+            built.wpCategoryId = wpCategoryId;
         }
 
         public LocalCategory build() {

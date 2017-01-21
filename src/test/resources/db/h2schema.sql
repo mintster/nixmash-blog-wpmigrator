@@ -140,6 +140,7 @@ CREATE TABLE tags
 );
 
 
+DROP TABLE IF EXISTS post_tag_ids;
 CREATE TABLE post_tag_ids
 (
   post_tag_id BIGINT(20) NOT NULL AUTO_INCREMENT,
@@ -158,6 +159,7 @@ CREATE TABLE categories
   PRIMARY KEY (category_id)
 );
 
+DROP TABLE IF EXISTS post_category_ids;
 CREATE TABLE post_category_ids
 (
   post_category_id BIGINT(20) NOT NULL AUTO_INCREMENT,

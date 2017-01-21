@@ -1,6 +1,8 @@
 package com.nixmash.wp.migrator;
 
+import com.nixmash.wp.migrator.db.wp.model.WpCategory;
 import com.nixmash.wp.migrator.db.wp.model.WpPost;
+import com.nixmash.wp.migrator.db.wp.model.WpTag;
 import com.nixmash.wp.migrator.db.wp.service.WpDbService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,6 +41,19 @@ public class WpDbTests extends WpSpringContext {
     }
 
     @Test
+    public void getWpCategories() throws Exception {
+        List<WpCategory> categories = wpDbService.getWpCategories();
+        assertThat(categories.size(), greaterThan(0));
+    }
+
+    @Test
+    public void getWpTags() throws Exception {
+        List<WpTag> tags  = wpDbService.getWpTags();
+        assertThat(tags.size(), greaterThan(0));
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
     public void wpEntityManagerFactoryTest() {
         String sql = "SELECT * FROM wp_posts;";
         List<WpPost> wpPosts  = emf.createNativeQuery(sql).getResultList();

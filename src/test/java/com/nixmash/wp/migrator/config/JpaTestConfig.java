@@ -3,10 +3,7 @@ package com.nixmash.wp.migrator.config;
 import com.nixmash.wp.migrator.auditors.AuditingDateTimeProvider;
 import com.nixmash.wp.migrator.auditors.DateTimeService;
 import com.nixmash.wp.migrator.auditors.UsernameAuditorAware;
-import org.hibernate.cfg.ImprovedNamingStrategy;
 import org.hibernate.dialect.MySQL5InnoDBDialect;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
@@ -21,7 +18,6 @@ import org.springframework.data.auditing.DateTimeProvider;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -31,7 +27,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -40,8 +35,6 @@ import java.util.Properties;
 
 import static java.lang.Boolean.TRUE;
 import static org.hibernate.cfg.AvailableSettings.*;
-import static org.hibernate.cfg.AvailableSettings.FORMAT_SQL;
-import static org.hibernate.cfg.AvailableSettings.USE_SQL_COMMENTS;
 
 @Configuration
 @EnableJpaAuditing(dateTimeProviderRef = "dateTimeProvider")

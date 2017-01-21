@@ -2,6 +2,7 @@ package com.nixmash.wp.migrator.db.wp.service;
 
 import com.nixmash.wp.migrator.db.wp.model.WpCategory;
 import com.nixmash.wp.migrator.db.wp.model.WpPost;
+import com.nixmash.wp.migrator.db.wp.model.WpTag;
 import com.nixmash.wp.migrator.db.wp.repository.WpCategoryRepository;
 import com.nixmash.wp.migrator.db.wp.repository.WpPostRepository;
 import org.springframework.data.domain.Sort;
@@ -38,9 +39,17 @@ public class WpDbServiceImpl implements WpDbService {
     }
 
     @Override
-    public List<WpCategory> getCategories() {
+    public List<WpCategory> getWpCategories() {
         return wpCategoryRepository.findAll();
     }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<WpTag> getWpTags() {
+        return em.createNativeQuery("SELECT *  FROM v_nixmash_wptags", "AllWpTags")
+                .getResultList();
+    }
+
 
     @Override
     public String getSampleTitle() {

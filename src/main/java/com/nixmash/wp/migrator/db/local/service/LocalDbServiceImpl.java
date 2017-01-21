@@ -81,6 +81,12 @@ public class LocalDbServiceImpl implements LocalDbService {
         return tagRepository.findAll();
     }
 
+    @Override
+    @Transactional
+    public LocalTag addLocalTag(LocalTag localTag) {
+        return tagRepository.save(localTag);
+    }
+
     // endregion
 
     // region Categories
@@ -89,6 +95,12 @@ public class LocalDbServiceImpl implements LocalDbService {
     @Transactional(readOnly = true)
     public  Set<LocalCategory> getLocalCategories() {
         return categoryRepository.findAll();
+    }
+
+    @Override
+    @Transactional
+    public LocalCategory addLocalCategory(LocalCategory localCategory) {
+        return categoryRepository.save(localCategory);
     }
 
     // endregion

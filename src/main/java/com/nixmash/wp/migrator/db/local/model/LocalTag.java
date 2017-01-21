@@ -107,6 +107,9 @@ public class LocalTag implements Serializable {
     public static Builder getBuilder(Long tagId, String tagValue, Long wpTagId) {
         return new Builder(tagId, tagValue, wpTagId);
     }
+    public static Builder getWpBuilder(String tagValue, Long wpTagId) {
+        return new Builder(0L, tagValue, wpTagId);
+    }
 
     public static class Builder {
 

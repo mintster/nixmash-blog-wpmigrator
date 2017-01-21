@@ -30,6 +30,12 @@ public interface LocalDbService {
     @Transactional(readOnly = true)
     Set<LocalTag> getLocalTags();
 
+    @Transactional
+    LocalTag addLocalTag(LocalTag localTag);
+
     @Transactional(readOnly = true)
     Set<LocalCategory> getLocalCategories();
+
+    @Transactional
+    LocalCategory addLocalCategory(LocalCategory localCategory);
 }

@@ -3,6 +3,7 @@ package com.nixmash.wp.migrator.service;
 import com.nixmash.wp.migrator.db.local.service.LocalDbService;
 import com.nixmash.wp.migrator.db.wp.model.WpCategory;
 import com.nixmash.wp.migrator.db.wp.model.WpPost;
+import com.nixmash.wp.migrator.db.wp.model.WpTag;
 import com.nixmash.wp.migrator.db.wp.service.WpDbService;
 import com.nixmash.wp.migrator.utils.ImportUtils;
 import org.slf4j.Logger;
@@ -40,10 +41,17 @@ public class ImportServiceImpl implements ImportService {
 
     @Override
     public void importCategories() {
-        List<WpCategory> wpCategories = wpDbService.getCategories();
+        List<WpCategory> wpCategories = wpDbService.getWpCategories();
         for (WpCategory wpCategory : wpCategories) {
-            System.out.println(wpCategory.getCategoryValue());
-//            localDbService.addLocalPost(ImportUtils.wpToLocalPost(wpPost));
+            localDbService.addLocalCategory(ImportUtils.wpToLocalCategory(wpCategory));
+        }
+    }
+
+    @Override
+    public void importTags() {
+        List<WpTag> wpTags= wpDbService.getWpTags();
+        for (WpTag wpTag : wpTags) {
+            localDbService.addLocalTag(ImportUtils.wpToLocalTag(wpTag));
         }
     }
 

@@ -38,12 +38,16 @@ public class WpUI {
     }
 
     public void init() {
-        showWpDbCategories();
+        showWpDbTags();
     }
 
 
     private void showWpDbCategories() {
         importService.importCategories();
+    }
+
+    private void showWpDbTags() {
+        importService.importTags();
     }
 
     private void showWpDbPosts() {

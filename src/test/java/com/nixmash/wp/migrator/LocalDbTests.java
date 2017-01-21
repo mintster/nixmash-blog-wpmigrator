@@ -94,5 +94,4 @@ public class LocalDbTests extends WpSpringContext {
 
     // endregion
 
-
 }
