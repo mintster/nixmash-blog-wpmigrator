@@ -9,6 +9,7 @@ import com.nixmash.wp.migrator.db.wp.model.WpTag;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Date;
 
 /**
  * Created by daveburke on 1/20/17.
@@ -37,4 +38,15 @@ public class ImportUtils {
                 wpCategory.getWpCategoryId())
                 .build();
     }
+
+    public static long timeMark() {
+        return new Date().getTime();
+    }
+
+    public static String totalTime(long lStartTime, long lEndTime) {
+        long duration = lEndTime - lStartTime;
+        String totalTime = String.format("Milliseconds: %d", duration);
+        return totalTime;
+    }
+
 }

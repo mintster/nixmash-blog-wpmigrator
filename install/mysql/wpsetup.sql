@@ -7,9 +7,10 @@
 
 SET FOREIGN_KEY_CHECKS=0;
 
-DROP VIEW IF EXISTS v_nixmash_wppost_categories;
-CREATE VIEW v_nixmash_wppost_categories AS
+DROP VIEW IF EXISTS v_nixmash_wppostcategories;
+CREATE VIEW v_nixmash_wppostcategories AS
   SELECT
+    UUID() as id;
     t.term_id AS wp_category_id,
     t.name    AS category_value,
     p.id AS wp_post_id,
@@ -22,9 +23,10 @@ CREATE VIEW v_nixmash_wppost_categories AS
   WHERE (tx.taxonomy = 'category' AND p.post_status = 'publish' AND p.post_type = 'post')
 
 
-DROP VIEW IF EXISTS v_nixmash_wppost_tags;
-CREATE VIEW v_nixmash_wppost_tags AS
+DROP VIEW IF EXISTS v_nixmash_wpposttags;
+CREATE VIEW v_nixmash_wpposttags AS
   SELECT
+    UUID() AS id,
     t.term_id AS wp_tag_id,
     t.name    AS tag_value,
     p.id AS wp_post_id,

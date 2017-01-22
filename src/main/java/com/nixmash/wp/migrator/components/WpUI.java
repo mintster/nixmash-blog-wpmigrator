@@ -17,6 +17,9 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.Set;
 
+import static com.nixmash.wp.migrator.utils.ImportUtils.timeMark;
+import static com.nixmash.wp.migrator.utils.ImportUtils.totalTime;
+
 /**
  * Created by daveburke on 1/13/17.
  */
@@ -38,9 +41,29 @@ public class WpUI {
     }
 
     public void init() {
-        showWpDbTags();
+        doImport();
     }
 
+    private void doImport() {
+        long start;
+        long end;
+
+        start = timeMark();
+        importService.importPosts();
+        end = timeMark();
+        System.out.println("Total time importPosts(): " + totalTime(start, end));
+
+        start = timeMark();
+        importService.importCategories();
+        end = timeMark();
+        System.out.println("Total time importCategories(): " + totalTime(start, end));
+
+        start = timeMark();
+        importService.importPostCategories();
+        end = timeMark();
+        System.out.println("Total time importPostCategories(): " + totalTime(start, end));
+
+    }
 
     private void showWpDbCategories() {
         importService.importCategories();

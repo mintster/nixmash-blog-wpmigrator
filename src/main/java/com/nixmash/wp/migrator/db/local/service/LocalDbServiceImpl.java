@@ -1,13 +1,8 @@
 package com.nixmash.wp.migrator.db.local.service;
 
-import com.nixmash.wp.migrator.db.local.model.LocalCategory;
-import com.nixmash.wp.migrator.db.local.model.LocalPost;
-import com.nixmash.wp.migrator.db.local.model.LocalTag;
-import com.nixmash.wp.migrator.db.local.model.LocalUser;
-import com.nixmash.wp.migrator.db.local.repository.CategoryRepository;
-import com.nixmash.wp.migrator.db.local.repository.PostRepository;
-import com.nixmash.wp.migrator.db.local.repository.TagRepository;
-import com.nixmash.wp.migrator.db.local.repository.UserRepository;
+import com.nixmash.wp.migrator.db.local.model.*;
+import com.nixmash.wp.migrator.db.local.repository.*;
+import com.nixmash.wp.migrator.db.wp.model.WpPostCategory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,13 +27,15 @@ public class LocalDbServiceImpl implements LocalDbService {
     private final UserRepository userRepository;
     private final TagRepository tagRepository;
     private final CategoryRepository categoryRepository;
+    private final PostCategoryRepository postCategoryRepository;
 
     @Autowired
-    public LocalDbServiceImpl(PostRepository postRepository, UserRepository userRepository, TagRepository tagRepository, CategoryRepository categoryRepository) {
+    public LocalDbServiceImpl(PostRepository postRepository, UserRepository userRepository, TagRepository tagRepository, CategoryRepository categoryRepository, PostCategoryRepository postCategoryRepository) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
         this.tagRepository = tagRepository;
         this.categoryRepository = categoryRepository;
+        this.postCategoryRepository = postCategoryRepository;
     }
 
     // region Posts
@@ -57,8 +54,20 @@ public class LocalDbServiceImpl implements LocalDbService {
 
     @Override
     @Transactional
+    public void addLocalPosts(List<LocalPost> posts) {
+        postRepository.save(posts);
+    }
+
+    @Override
+    @Transactional
     public LocalPost getLocalPostByPostId(Long postId) {
         return postRepository.findByPostId(postId);
+    }
+
+    @Override
+    @Transactional
+    public LocalPost getLocalPostByWpPostId(Long wpPostId) {
+        return postRepository.findByWpPostId(wpPostId);
     }
 
     // endregion
@@ -101,6 +110,31 @@ public class LocalDbServiceImpl implements LocalDbService {
     @Transactional
     public LocalCategory addLocalCategory(LocalCategory localCategory) {
         return categoryRepository.save(localCategory);
+    }
+
+    @Override
+    @Transactional
+    public void addLocalCategories(List<LocalCategory> localCategories) {
+        categoryRepository.save(localCategories);
+    }
+
+    // endregion
+
+    // region Post Categories
+
+    @Override
+    public Long getLocalPostCategoryId(WpPostCategory wpPostCategory) {
+        return categoryRepository.findByWpCategoryId(wpPostCategory.getWpCategoryId()).getCategoryId();
+    }
+
+    @Override
+    public LocalPostCategory addLocalPostCategory(LocalPostCategory localPostCategory) {
+        return postCategoryRepository.save(localPostCategory);
+    }
+
+    @Override
+    public void addLocalPostCategories(List<LocalPostCategory> localPostCategories) {
+        postCategoryRepository.save(localPostCategories);
     }
 
     // endregion

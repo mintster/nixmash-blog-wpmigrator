@@ -2,6 +2,7 @@
 -- ----------------------------
 -- Table structure for authorities
 -- ----------------------------
+DROP TABLE IF EXISTS authorities;
 CREATE TABLE authorities (
   authority_id bigint(20) NOT NULL AUTO_INCREMENT,
   authority varchar(50) NOT NULL,
@@ -13,6 +14,7 @@ CREATE TABLE authorities (
 -- ----------------------------
 -- Table structure for users
 -- ----------------------------
+DROP TABLE IF EXISTS users;
 CREATE TABLE users (
   user_id bigint(20) NOT NULL AUTO_INCREMENT,
   username varchar(50) NOT NULL,
@@ -35,6 +37,7 @@ CREATE TABLE users (
 -- ----------------------------
 -- Table structure for site_options
 -- ----------------------------
+DROP TABLE IF EXISTS site_options;
 CREATE TABLE site_options (
   option_id bigint(20) NOT NULL AUTO_INCREMENT,
   option_name varchar(50) NOT NULL,
@@ -45,6 +48,7 @@ CREATE TABLE site_options (
 -- ----------------------------
 -- Table structure for user_authorities
 -- ----------------------------
+DROP TABLE IF EXISTS user_authorities;
 CREATE TABLE user_authorities (
   user_id bigint(20) NOT NULL,
   authority_id bigint(20) NOT NULL,
@@ -56,6 +60,7 @@ CREATE TABLE user_authorities (
 -- ----------------------------
 -- Table structure for user_profiles
 -- ----------------------------
+DROP TABLE IF EXISTS user_profiles;
 CREATE TABLE user_profiles (
   id bigint(20) NOT NULL AUTO_INCREMENT,
   address varchar(255) DEFAULT NULL,
@@ -70,6 +75,7 @@ CREATE TABLE user_profiles (
 -- ----------------------------
 -- Table structure for user_data
 -- ----------------------------
+DROP TABLE IF EXISTS user_data;
 CREATE TABLE user_data
 (
   user_id BIGINT(20) NOT NULL,
@@ -89,6 +95,7 @@ CREATE TABLE user_data
 -- ----------------------------
 -- Table structure for userconnection
 -- ----------------------------
+DROP TABLE IF EXISTS userconnection;
 CREATE TABLE userconnection (
   userId varchar(255) NOT NULL,
   providerId varchar(255) NOT NULL,
@@ -107,6 +114,7 @@ CREATE TABLE userconnection (
 -- ----------------------------
 -- Table structure for posts
 -- ----------------------------
+DROP TABLE IF EXISTS posts;
 CREATE TABLE posts (
   post_id bigint(20) NOT NULL AUTO_INCREMENT,
   user_id bigint(20) NOT NULL,
@@ -125,12 +133,14 @@ CREATE TABLE posts (
   likes_count int(11) NOT NULL DEFAULT '0',
   value_rating int(11) NOT NULL DEFAULT '0',
   version int(11) NOT NULL DEFAULT '0',
+  wp_post_id BIGINT(20) NOT NULL DEFAULT '0',
   UNIQUE KEY posts_post_id_uindex (post_id),
   UNIQUE KEY posts_post_name_pk (post_name),
   PRIMARY KEY (post_id),
   CONSTRAINT posts_users_user_id_fk FOREIGN KEY (user_id) REFERENCES users (user_id)
 );
 
+DROP TABLE IF EXISTS tags;
 CREATE TABLE tags
 (
   tag_id BIGINT(20) NOT NULL AUTO_INCREMENT,

@@ -1,8 +1,12 @@
 package com.nixmash.wp.migrator.service;
 
+import com.nixmash.wp.migrator.db.local.model.LocalCategory;
+import com.nixmash.wp.migrator.db.local.model.LocalPost;
+import com.nixmash.wp.migrator.db.local.model.LocalPostCategory;
 import com.nixmash.wp.migrator.db.local.service.LocalDbService;
 import com.nixmash.wp.migrator.db.wp.model.WpCategory;
 import com.nixmash.wp.migrator.db.wp.model.WpPost;
+import com.nixmash.wp.migrator.db.wp.model.WpPostCategory;
 import com.nixmash.wp.migrator.db.wp.model.WpTag;
 import com.nixmash.wp.migrator.db.wp.service.WpDbService;
 import com.nixmash.wp.migrator.utils.ImportUtils;
@@ -10,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,25 +39,48 @@ public class ImportServiceImpl implements ImportService {
     @Override
     public void importPosts() {
         List<WpPost> wpPosts = wpDbService.getPublishedWpPosts();
+        List<LocalPost> localPosts = new ArrayList<>();
         for (WpPost wpPost : wpPosts) {
-            localDbService.addLocalPost(ImportUtils.wpToLocalPost(wpPost));
+            localPosts.add(ImportUtils.wpToLocalPost(wpPost));
         }
+        localDbService.addLocalPosts(localPosts);
     }
 
     @Override
     public void importCategories() {
         List<WpCategory> wpCategories = wpDbService.getWpCategories();
+        List<LocalCategory> localCategories = new ArrayList<>();
         for (WpCategory wpCategory : wpCategories) {
-            localDbService.addLocalCategory(ImportUtils.wpToLocalCategory(wpCategory));
+            localCategories.add(ImportUtils.wpToLocalCategory(wpCategory));
         }
+        localDbService.addLocalCategories(localCategories);
     }
 
     @Override
     public void importTags() {
-        List<WpTag> wpTags= wpDbService.getWpTags();
+        List<WpTag> wpTags = wpDbService.getWpTags();
         for (WpTag wpTag : wpTags) {
             localDbService.addLocalTag(ImportUtils.wpToLocalTag(wpTag));
         }
+    }
+
+    @Override
+    public void importPostCategories() {
+        List<WpPostCategory> wpPostCategories = wpDbService.getWpPostCategories();
+        Long categoryId = -1L;
+        Long postId = -1L;
+
+        List<LocalPostCategory> localPostCategories = new ArrayList<>();
+        for (WpPostCategory wpc : wpPostCategories) {
+            categoryId = localDbService.getLocalPostCategoryId(wpc);
+            postId =
+                    localDbService.getLocalPostByWpPostId(wpc.getWpPostId()).getPostId();
+            LocalPostCategory localPostCategory =
+                    LocalPostCategory.getWpBuilder(postId, categoryId).build();
+            localPostCategories.add(localPostCategory);
+        }
+
+        localDbService.addLocalPostCategories(localPostCategories);
     }
 
 }

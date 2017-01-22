@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ import static org.junit.Assert.assertThat;
  */
 @RunWith(SpringRunner.class)
 @Transactional
+@Rollback(true)
 public class ImportTests extends WpSpringContext {
 
     private static final String NA = "NA";
@@ -67,6 +69,18 @@ public class ImportTests extends WpSpringContext {
         importService.importCategories();
         Set<LocalCategory> categories = localDbService.getLocalCategories();
         assertThat(categories.size(), greaterThan(0));
+    }
+
+    @Test
+    public void importPostCategoriesTest() {
+        importService.importPosts();
+        importService.importCategories();
+        importService.importPostCategories();
+
+        List<LocalPost> localPosts = localDbService.getLocalPosts();
+        for (LocalPost localPost : localPosts) {
+            System.out.println(localPost.getPostTitle() + " | " + localPost.getCategories());
+        }
     }
 
     // endregion

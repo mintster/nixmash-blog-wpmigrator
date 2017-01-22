@@ -1,10 +1,8 @@
 package com.nixmash.wp.migrator.db.local.service;
 
 
-import com.nixmash.wp.migrator.db.local.model.LocalCategory;
-import com.nixmash.wp.migrator.db.local.model.LocalPost;
-import com.nixmash.wp.migrator.db.local.model.LocalTag;
-import com.nixmash.wp.migrator.db.local.model.LocalUser;
+import com.nixmash.wp.migrator.db.local.model.*;
+import com.nixmash.wp.migrator.db.wp.model.WpPostCategory;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
@@ -22,7 +20,13 @@ public interface LocalDbService {
     LocalPost addLocalPost(LocalPost post);
 
     @Transactional
+    void addLocalPosts(List<LocalPost> posts);
+
+    @Transactional
     LocalPost getLocalPostByPostId(Long postId);
+
+    @Transactional
+    LocalPost getLocalPostByWpPostId(Long wpPostId);
 
     @Transactional(readOnly = true)
     Collection<LocalUser> getLocalUsers();
@@ -38,4 +42,13 @@ public interface LocalDbService {
 
     @Transactional
     LocalCategory addLocalCategory(LocalCategory localCategory);
+
+    @Transactional
+    void addLocalCategories(List<LocalCategory> localCategories);
+
+    Long getLocalPostCategoryId(WpPostCategory wpPostCategory);
+
+    LocalPostCategory addLocalPostCategory(LocalPostCategory localPostCategory);
+
+    void addLocalPostCategories(List<LocalPostCategory> localPostCategories);
 }

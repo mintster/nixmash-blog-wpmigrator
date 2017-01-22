@@ -17,6 +17,7 @@ import java.util.List;
 public interface PostRepository extends PagingAndSortingRepository<LocalPost, Long> {
 
     LocalPost findByPostId(Long postId) throws DataAccessException;
+    LocalPost findByWpPostId(Long wpPostId) throws DataAccessException;
 
     @Query("select distinct p from LocalPost p left join fetch p.tags t")
     List<LocalPost> findAllWithDetail();
