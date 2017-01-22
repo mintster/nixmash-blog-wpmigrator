@@ -102,7 +102,7 @@ public class LocalDbServiceImpl implements LocalDbService {
 
     @Override
     @Transactional(readOnly = true)
-    public  Set<LocalCategory> getLocalCategories() {
+    public  List<LocalCategory> getLocalCategories() {
         return categoryRepository.findAll();
     }
 
@@ -135,6 +135,12 @@ public class LocalDbServiceImpl implements LocalDbService {
     @Override
     public void addLocalPostCategories(List<LocalPostCategory> localPostCategories) {
         postCategoryRepository.save(localPostCategories);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public  List<LocalPostCategory> getLocalPostCategories() {
+        return postCategoryRepository.findAll();
     }
 
     // endregion

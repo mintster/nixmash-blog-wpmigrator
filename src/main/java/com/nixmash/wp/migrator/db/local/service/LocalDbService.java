@@ -38,7 +38,7 @@ public interface LocalDbService {
     LocalTag addLocalTag(LocalTag localTag);
 
     @Transactional(readOnly = true)
-    Set<LocalCategory> getLocalCategories();
+    List<LocalCategory> getLocalCategories();
 
     @Transactional
     LocalCategory addLocalCategory(LocalCategory localCategory);
@@ -51,4 +51,7 @@ public interface LocalDbService {
     LocalPostCategory addLocalPostCategory(LocalPostCategory localPostCategory);
 
     void addLocalPostCategories(List<LocalPostCategory> localPostCategories);
+
+    @Transactional(readOnly = true)
+    List<LocalPostCategory> getLocalPostCategories();
 }

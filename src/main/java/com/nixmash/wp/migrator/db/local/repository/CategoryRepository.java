@@ -4,13 +4,13 @@ import com.nixmash.wp.migrator.db.local.model.LocalCategory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.Set;
+import java.util.List;
 
 public interface CategoryRepository extends CrudRepository<LocalCategory, Long> {
 
     LocalCategory findByCategoryValueIgnoreCase(String categoryValue);
 
-    Set<LocalCategory> findAll();
+    List<LocalCategory> findAll();
 
     LocalCategory findByWpCategoryId(Long wpCategoryId)  throws DataAccessException;
 

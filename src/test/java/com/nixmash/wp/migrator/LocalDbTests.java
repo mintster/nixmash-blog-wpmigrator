@@ -1,9 +1,6 @@
 package com.nixmash.wp.migrator;
 
-import com.nixmash.wp.migrator.db.local.model.LocalCategory;
-import com.nixmash.wp.migrator.db.local.model.LocalPost;
-import com.nixmash.wp.migrator.db.local.model.LocalTag;
-import com.nixmash.wp.migrator.db.local.model.LocalUser;
+import com.nixmash.wp.migrator.db.local.model.*;
 import com.nixmash.wp.migrator.db.local.service.LocalDbService;
 import com.nixmash.wp.migrator.enums.PostType;
 import org.junit.Before;
@@ -65,7 +62,7 @@ public class LocalDbTests extends WpSpringContext {
 
     @Test
     public void getLocalCategoriesTest() throws Exception {
-        Set<LocalCategory> categories= localDbService.getLocalCategories();
+        List<LocalCategory> categories= localDbService.getLocalCategories();
         assertNotNull(categories);
         assertEquals(categories.size(), 0);
     }
@@ -75,6 +72,13 @@ public class LocalDbTests extends WpSpringContext {
         Collection<LocalUser> users = localDbService.getLocalUsers();
         assertNotNull(users);
         assertThat(users.size(), greaterThan(0));
+    }
+
+    @Test
+    public void getLocalPostCategoriesTest() throws Exception {
+        List<LocalPostCategory> localPostCategories = localDbService.getLocalPostCategories();
+        assertNotNull(localPostCategories);
+        assertEquals(localPostCategories.size(), 0);
     }
 
     // endregion

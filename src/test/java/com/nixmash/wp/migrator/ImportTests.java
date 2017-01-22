@@ -2,6 +2,7 @@ package com.nixmash.wp.migrator;
 
 import com.nixmash.wp.migrator.db.local.model.LocalCategory;
 import com.nixmash.wp.migrator.db.local.model.LocalPost;
+import com.nixmash.wp.migrator.db.local.model.LocalPostCategory;
 import com.nixmash.wp.migrator.db.local.service.LocalDbService;
 import com.nixmash.wp.migrator.service.ImportService;
 import org.junit.Before;
@@ -15,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
-import java.util.Set;
 
 import static com.nixmash.wp.migrator.config.JpaTestConfig.LOCAL;
 import static org.hamcrest.Matchers.greaterThan;
@@ -67,7 +67,7 @@ public class ImportTests extends WpSpringContext {
     @Test
     public void importCategoriesTest() {
         importService.importCategories();
-        Set<LocalCategory> categories = localDbService.getLocalCategories();
+        List<LocalCategory> categories = localDbService.getLocalCategories();
         assertThat(categories.size(), greaterThan(0));
     }
 
@@ -76,11 +76,9 @@ public class ImportTests extends WpSpringContext {
         importService.importPosts();
         importService.importCategories();
         importService.importPostCategories();
+        List<LocalPostCategory> localPostCategories = localDbService.getLocalPostCategories();
+        assertThat(localPostCategories.size(), greaterThan(0));
 
-        List<LocalPost> localPosts = localDbService.getLocalPosts();
-        for (LocalPost localPost : localPosts) {
-            System.out.println(localPost.getPostTitle() + " | " + localPost.getCategories());
-        }
     }
 
     // endregion

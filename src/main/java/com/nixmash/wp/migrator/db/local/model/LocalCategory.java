@@ -10,13 +10,13 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name = "categories")
 public class LocalCategory implements Serializable {
 
-    private static final long serialVersionUID = -5531381747015731447L;
+    private static final Long serialVersionUID = -5531381747015731447L;
 
-    private long categoryId;
-    private long wpCategoryId;
+    private Long categoryId;
+    private Long wpCategoryId;
     private String categoryValue;
     private Set<LocalPost> posts;
-    private int categoryCount = 0;
+    private Integer categoryCount = 0;
 
     public LocalCategory() {
     }
@@ -33,11 +33,11 @@ public class LocalCategory implements Serializable {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "category_id", nullable = false)
-    public long getCategoryId() {
+    public Long getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(long categoryId) {
+    public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
     }
 
@@ -53,11 +53,11 @@ public class LocalCategory implements Serializable {
 
     @Basic
     @Column(name = "wp_category_id", nullable = false)
-    public long getWpCategoryId() {
+    public Long getWpCategoryId() {
         return wpCategoryId;
     }
 
-    public void setWpCategoryId(long wpCategoryId) {
+    public void setWpCategoryId(Long wpCategoryId) {
         this.wpCategoryId = wpCategoryId;
     }
 
@@ -72,11 +72,11 @@ public class LocalCategory implements Serializable {
     }
 
     @Transient
-    public int getCategoryCount() {
+    public Integer getCategoryCount() {
         return categoryCount;
     }
 
-    public void setCategoryCount(int categoryCount) {
+    public void setCategoryCount(Integer categoryCount) {
         this.categoryCount = categoryCount;
     }
 
