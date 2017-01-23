@@ -1,9 +1,6 @@
 package com.nixmash.wp.migrator.db.wp.service;
 
-import com.nixmash.wp.migrator.db.wp.model.WpCategory;
-import com.nixmash.wp.migrator.db.wp.model.WpPost;
-import com.nixmash.wp.migrator.db.wp.model.WpPostCategory;
-import com.nixmash.wp.migrator.db.wp.model.WpTag;
+import com.nixmash.wp.migrator.db.wp.model.*;
 
 import java.util.List;
 
@@ -18,6 +15,9 @@ public interface WpDbService {
 
     @SuppressWarnings("unchecked")
     List<WpPostCategory> getWpPostCategories();
+
+    @SuppressWarnings("unchecked")
+    List<WpPostTag> getWpPostTags();
 
     @SuppressWarnings("unchecked")
     List<WpTag> getWpTags();

@@ -1,9 +1,6 @@
 package com.nixmash.wp.migrator;
 
-import com.nixmash.wp.migrator.db.wp.model.WpCategory;
-import com.nixmash.wp.migrator.db.wp.model.WpPost;
-import com.nixmash.wp.migrator.db.wp.model.WpPostCategory;
-import com.nixmash.wp.migrator.db.wp.model.WpTag;
+import com.nixmash.wp.migrator.db.wp.model.*;
 import com.nixmash.wp.migrator.db.wp.service.WpDbService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -66,6 +63,12 @@ public class WpDbTests extends WpSpringContext {
     public void wpPostCategoriesTest() {
         List<WpPostCategory> wpPostCategories = wpDbService.getWpPostCategories();
         assertThat(wpPostCategories.size(), greaterThan(0));
+    }
+
+    @Test
+    public void wpPostTagsTest() {
+        List<WpPostTag> wpPostTags = wpDbService.getWpPostTags();
+        assertThat(wpPostTags.size(), greaterThan(0));
     }
     // endregion
 

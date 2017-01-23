@@ -1,13 +1,8 @@
 package com.nixmash.wp.migrator.service;
 
-import com.nixmash.wp.migrator.db.local.model.LocalCategory;
-import com.nixmash.wp.migrator.db.local.model.LocalPost;
-import com.nixmash.wp.migrator.db.local.model.LocalPostCategory;
+import com.nixmash.wp.migrator.db.local.model.*;
 import com.nixmash.wp.migrator.db.local.service.LocalDbService;
-import com.nixmash.wp.migrator.db.wp.model.WpCategory;
-import com.nixmash.wp.migrator.db.wp.model.WpPost;
-import com.nixmash.wp.migrator.db.wp.model.WpPostCategory;
-import com.nixmash.wp.migrator.db.wp.model.WpTag;
+import com.nixmash.wp.migrator.db.wp.model.*;
 import com.nixmash.wp.migrator.db.wp.service.WpDbService;
 import com.nixmash.wp.migrator.utils.ImportUtils;
 import org.slf4j.Logger;
@@ -66,8 +61,50 @@ public class ImportServiceImpl implements ImportService {
     }
 
     @Override
+    public void importPostTags() {
+        List<WpPostTag> wpPostTags = wpDbService.getWpPostTags();
+        List<LocalPost> posts = localDbService.getLocalPosts();
+        List<LocalTag> tags = localDbService.getLocalTags();
+
+        Long tagId = -1L;
+        Long postId = -1L;
+
+        List<LocalPostTag> localPostTags = new ArrayList<>();
+
+        for (WpPostTag wpPostTag : wpPostTags) {
+
+            Optional<LocalTag> localTag = tags
+                    .stream()
+                    .filter(t -> t.getWpTagId().equals(wpPostTag.getWpTagId()))
+                    .findFirst();
+            if (localTag.isPresent()) {
+                tagId = localTag.get().getTagId();
+            }
+
+            Optional<LocalPost> localPost = posts
+                    .stream()
+                    .filter(p -> p.getWpPostId().equals(wpPostTag.getWpPostId()))
+                    .findFirst();
+            if (localPost.isPresent()) {
+                postId = localPost.get().getPostId();
+            }
+
+            if (localTag.isPresent() && localPost.isPresent())
+                localPostTags.add(LocalPostTag
+                        .getWpBuilder(postId, tagId)
+                        .build());
+
+        }
+
+        localDbService.addLocalPostTags(localPostTags);
+    }
+
+
+    @Override
     public void importPostCategories() {
-        List<WpPostCategory> wpPostCategories = wpDbService.getWpPostCategories();
+
+        List<WpPostCategory> wpcs = wpDbService.getWpPostCategories();
+
         List<LocalPost> posts = localDbService.getLocalPosts();
         List<LocalCategory> categories = localDbService.getLocalCategories();
 
@@ -76,9 +113,7 @@ public class ImportServiceImpl implements ImportService {
 
         List<LocalPostCategory> localPostCategories = new ArrayList<>();
 
-        for (WpPostCategory wpc : wpPostCategories) {
-
-            boolean goodIds = false;
+        for (WpPostCategory wpc : wpcs) {
 
             Optional<LocalCategory> localCategory = categories
                     .stream()
@@ -86,7 +121,6 @@ public class ImportServiceImpl implements ImportService {
                     .findFirst();
             if (localCategory.isPresent()) {
                 categoryId = localCategory.get().getCategoryId();
-                goodIds = true;
             }
 
             Optional<LocalPost> localPost = posts
@@ -95,10 +129,9 @@ public class ImportServiceImpl implements ImportService {
                     .findFirst();
             if (localPost.isPresent()) {
                 postId = localPost.get().getPostId();
-                goodIds = true;
             }
 
-            if (goodIds)
+            if (localCategory.isPresent() && localPost.isPresent())
                 localPostCategories.add(LocalPostCategory
                         .getWpBuilder(postId, categoryId)
                         .build());

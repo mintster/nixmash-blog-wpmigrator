@@ -15,7 +15,6 @@ import javax.persistence.PersistenceContext;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import static com.nixmash.wp.migrator.config.JpaTestConfig.LOCAL;
 import static org.hamcrest.Matchers.greaterThan;
@@ -55,7 +54,7 @@ public class LocalDbTests extends WpSpringContext {
 
     @Test
     public void getLocalTagsTest() throws Exception {
-        Set<LocalTag> tags = localDbService.getLocalTags();
+        List<LocalTag> tags = localDbService.getLocalTags();
         assertNotNull(tags);
         assertEquals(tags.size(), 0);
     }

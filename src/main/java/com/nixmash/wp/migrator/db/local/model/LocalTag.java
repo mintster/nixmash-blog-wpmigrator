@@ -20,10 +20,10 @@ import static javax.persistence.GenerationType.IDENTITY;
 })
 public class LocalTag implements Serializable {
 
-    private static final long serialVersionUID = -5531381747015731447L;
+    private static final Long serialVersionUID = -5531381747015731447L;
 
-    private long tagId;
-    private long wpTagId;
+    private Long tagId;
+    private Long wpTagId;
     private String tagValue;
     private Set<LocalPost> posts;
     private int tagCount = 0;
@@ -40,7 +40,7 @@ public class LocalTag implements Serializable {
         this.tagValue = tagValue;
     }
 
-    public LocalTag(long tagId, long wpTagId, String tagValue) {
+    public LocalTag(Long tagId, Long wpTagId, String tagValue) {
         this.tagId = tagId;
         this.wpTagId = wpTagId;
         this.tagValue = tagValue;
@@ -49,11 +49,11 @@ public class LocalTag implements Serializable {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "tag_id", nullable = false)
-    public long getTagId() {
+    public Long getTagId() {
         return tagId;
     }
 
-    public void setTagId(long tagId) {
+    public void setTagId(Long tagId) {
         this.tagId = tagId;
     }
 
@@ -65,11 +65,11 @@ public class LocalTag implements Serializable {
 
     @Basic
     @Column(name = "wp_tag_id", nullable = false)
-    public long getWpTagId() {
+    public Long getWpTagId() {
         return wpTagId;
     }
 
-    public void setWpTagId(long wpTagId) {
+    public void setWpTagId(Long wpTagId) {
         this.wpTagId = wpTagId;
     }
 

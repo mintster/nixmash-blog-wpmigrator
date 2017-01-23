@@ -9,5 +9,7 @@ public interface ImportService {
 
     void importTags();
 
+    void importPostTags();
+
     void importPostCategories();
 }

@@ -32,7 +32,7 @@ public interface LocalDbService {
     Collection<LocalUser> getLocalUsers();
 
     @Transactional(readOnly = true)
-    Set<LocalTag> getLocalTags();
+    List<LocalTag> getLocalTags();
 
     @Transactional
     LocalTag addLocalTag(LocalTag localTag);
@@ -54,4 +54,10 @@ public interface LocalDbService {
 
     @Transactional(readOnly = true)
     List<LocalPostCategory> getLocalPostCategories();
+
+    @Transactional(readOnly = true)
+    List<LocalPostTag> getLocalPostTags();
+
+    @Transactional
+    void addLocalPostTags(List<LocalPostTag> localPostTags);
 }

@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 import java.util.List;
-import java.util.Set;
 
 import static com.nixmash.wp.migrator.utils.ImportUtils.timeMark;
 import static com.nixmash.wp.migrator.utils.ImportUtils.totalTime;
@@ -41,10 +40,32 @@ public class WpUI {
     }
 
     public void init() {
-        doImport();
+        doImportTags();
     }
 
-    private void doImport() {
+
+    private void doImportTags() {
+        long start;
+        long end;
+
+        start = timeMark();
+        importService.importPosts();
+        end = timeMark();
+        System.out.println("Total time importPosts(): " + totalTime(start, end));
+
+        start = timeMark();
+        importService.importTags();
+        end = timeMark();
+        System.out.println("Total time importTags(): " + totalTime(start, end));
+
+        start = timeMark();
+        importService.importPostTags();
+        end = timeMark();
+        System.out.println("Total time importPostTags(): " + totalTime(start, end));
+
+    }
+
+    private void doImportCategories() {
         long start;
         long end;
 
@@ -113,7 +134,7 @@ public class WpUI {
     }
 
     private void showLocalDbTags() {
-        Set<LocalTag> tags = localDbService.getLocalTags();
+        List<LocalTag> tags = localDbService.getLocalTags();
         for (LocalTag tag : tags) {
             System.out.println(tag.getTagValue());
         }

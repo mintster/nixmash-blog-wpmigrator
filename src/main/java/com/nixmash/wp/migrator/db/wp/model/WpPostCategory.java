@@ -1,6 +1,7 @@
 package com.nixmash.wp.migrator.db.wp.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by daveburke on 1/22/17.
@@ -18,7 +19,10 @@ import javax.persistence.*;
                 )
         }
 )
-public class WpPostCategory {
+public class WpPostCategory implements Serializable {
+
+    private static final long serialVersionUID = 6284662776872664114L;
+
     private Long wpCategoryId;
     private Long wpPostId;
 

@@ -3,6 +3,7 @@ package com.nixmash.wp.migrator;
 import com.nixmash.wp.migrator.db.local.model.LocalCategory;
 import com.nixmash.wp.migrator.db.local.model.LocalPost;
 import com.nixmash.wp.migrator.db.local.model.LocalPostCategory;
+import com.nixmash.wp.migrator.db.local.model.LocalPostTag;
 import com.nixmash.wp.migrator.db.local.service.LocalDbService;
 import com.nixmash.wp.migrator.service.ImportService;
 import org.junit.Before;
@@ -39,7 +40,7 @@ public class ImportTests extends WpSpringContext {
     private LocalDbService localDbService;
 
     @PersistenceContext(unitName = LOCAL)
-    EntityManager entityManager;
+    private EntityManager entityManager;
 
     @Before
     public void clearPostData() {
@@ -78,6 +79,16 @@ public class ImportTests extends WpSpringContext {
         importService.importPostCategories();
         List<LocalPostCategory> localPostCategories = localDbService.getLocalPostCategories();
         assertThat(localPostCategories.size(), greaterThan(0));
+
+    }
+
+    @Test
+    public void importPostTagsTest() {
+        importService.importPosts();
+        importService.importTags();
+        importService.importPostTags();
+        List<LocalPostTag> localPostTags = localDbService.getLocalPostTags();
+        assertThat(localPostTags.size(), greaterThan(0));
 
     }
 

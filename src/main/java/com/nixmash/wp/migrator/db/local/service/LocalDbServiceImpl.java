@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by daveburke on 1/13/17.
@@ -28,14 +27,16 @@ public class LocalDbServiceImpl implements LocalDbService {
     private final TagRepository tagRepository;
     private final CategoryRepository categoryRepository;
     private final PostCategoryRepository postCategoryRepository;
+    private final PostTagRepository postTagRepository;
 
     @Autowired
-    public LocalDbServiceImpl(PostRepository postRepository, UserRepository userRepository, TagRepository tagRepository, CategoryRepository categoryRepository, PostCategoryRepository postCategoryRepository) {
+    public LocalDbServiceImpl(PostRepository postRepository, UserRepository userRepository, TagRepository tagRepository, CategoryRepository categoryRepository, PostCategoryRepository postCategoryRepository, PostTagRepository postTagRepository) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
         this.tagRepository = tagRepository;
         this.categoryRepository = categoryRepository;
         this.postCategoryRepository = postCategoryRepository;
+        this.postTagRepository = postTagRepository;
     }
 
     // region Posts
@@ -86,7 +87,7 @@ public class LocalDbServiceImpl implements LocalDbService {
 
     @Override
     @Transactional(readOnly = true)
-    public Set<LocalTag> getLocalTags() {
+    public List<LocalTag> getLocalTags() {
         return tagRepository.findAll();
     }
 
@@ -133,6 +134,7 @@ public class LocalDbServiceImpl implements LocalDbService {
     }
 
     @Override
+    @Transactional
     public void addLocalPostCategories(List<LocalPostCategory> localPostCategories) {
         postCategoryRepository.save(localPostCategories);
     }
@@ -144,6 +146,23 @@ public class LocalDbServiceImpl implements LocalDbService {
     }
 
     // endregion
+
+    // region Post Tags
+
+    @Override
+    @Transactional(readOnly = true)
+    public  List<LocalPostTag> getLocalPostTags() {
+        return postTagRepository.findAll();
+    }
+
+    @Override
+    @Transactional
+    public void addLocalPostTags(List<LocalPostTag> localPostTags) {
+        postTagRepository.save(localPostTags);
+    }
+
+    // endregion
+
 
     public Sort sortByPostDateDesc() {
         return new Sort(Sort.Direction.DESC, "postDate");
