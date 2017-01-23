@@ -1,6 +1,7 @@
 package com.nixmash.wp.migrator.db.local.service;
 
 
+import com.nixmash.wp.migrator.db.local.dto.LocalUserDTO;
 import com.nixmash.wp.migrator.db.local.model.*;
 import com.nixmash.wp.migrator.db.wp.model.WpPostCategory;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +31,15 @@ public interface LocalDbService {
 
     @Transactional(readOnly = true)
     Collection<LocalUser> getLocalUsers();
+
+    @Transactional(readOnly = true)
+    LocalUser getLocalUserById(Long userId);
+
+    @Transactional
+    LocalUser updateLocalUserPassword(LocalUser localUser);
+
+    @Transactional
+    LocalUser updateLocalUser(LocalUserDTO localUserDTO);
 
     @Transactional(readOnly = true)
     List<LocalTag> getLocalTags();

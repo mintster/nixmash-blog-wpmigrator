@@ -19,11 +19,7 @@ Date: 2015-04-21 17:49:43
 /* ------------------------------------------------------------ */
 
 INSERT INTO users (user_id, email, username, password, first_name, last_name, enabled, account_expired, account_locked, credentials_expired, has_avatar, user_key, provider_id)
-VALUES
-  (1, 'admin@email.com', 'admin', '$2a$10$B9wQFSrr3bfQeUGqxtTDuut1.4YFcA/WFthZaGe1wtb1wgVW./Oiq', 'Admin', 'Jones',
-      TRUE, FALSE, FALSE, FALSE, FALSE, '4L4Hr3skHYYMbjkQ', 'SITE');
-INSERT INTO users (user_id, email, username, password, first_name, last_name, enabled, account_expired, account_locked, credentials_expired, has_avatar, user_key, provider_id)
-VALUES (2, 'keith@aol.com', 'keith', '$2a$10$F2a2W8RtbD99xXd9xtwjbuI4zjSYe04kS.s0FyvQcAIDJfh/6jjLW', 'Keith', 'Obannon',
+VALUES (1, 'keith@aol.com', 'keith', '$2a$10$F2a2W8RtbD99xXd9xtwjbuI4zjSYe04kS.s0FyvQcAIDJfh/6jjLW', 'Keith', 'Obannon',
            TRUE, FALSE, FALSE, FALSE, FALSE, 'HuoPByrU0hC87gz8', 'SITE');
 
 
@@ -45,11 +41,9 @@ INSERT INTO authorities (authority_id, authority, is_locked) VALUES (3, 'ROLE_PO
 -- User_Authorities
 /* ------------------------------------------------------------ */
 
-INSERT INTO user_authorities (user_id, authority_id) VALUES (1, 2);
 INSERT INTO user_authorities (user_id, authority_id) VALUES (1, 1);
+INSERT INTO user_authorities (user_id, authority_id) VALUES (1, 2);
 INSERT INTO user_authorities (user_id, authority_id) VALUES (1, 3);
-INSERT INTO user_authorities (user_id, authority_id) VALUES (2, 2);
-
 
 INSERT INTO site_options (option_id, option_name, option_value) VALUES ('1', 'siteName', 'My Site');
 INSERT INTO site_options (option_id, option_name, option_value) VALUES ('2', 'siteDescription', 'My Site Description');

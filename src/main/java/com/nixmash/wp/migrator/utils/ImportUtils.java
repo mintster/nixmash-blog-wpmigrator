@@ -1,11 +1,13 @@
 package com.nixmash.wp.migrator.utils;
 
+import com.nixmash.wp.migrator.db.local.dto.LocalUserDTO;
 import com.nixmash.wp.migrator.db.local.model.LocalCategory;
 import com.nixmash.wp.migrator.db.local.model.LocalPost;
 import com.nixmash.wp.migrator.db.local.model.LocalTag;
 import com.nixmash.wp.migrator.db.wp.model.WpCategory;
 import com.nixmash.wp.migrator.db.wp.model.WpPost;
 import com.nixmash.wp.migrator.db.wp.model.WpTag;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -49,4 +51,11 @@ public class ImportUtils {
         return totalTime;
     }
 
+    public static String bcryptedPassword(String rawPassword) {
+        return new BCryptPasswordEncoder().encode(rawPassword);
+    }
+
+    public static LocalUserDTO getDefaultLocalUserDTO(String username,  String email, String firstName, String lastName) {
+        return LocalUserDTO.getBuilder(1L, username, email, firstName, lastName).build();
+    }
 }

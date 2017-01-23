@@ -1,12 +1,15 @@
 package com.nixmash.wp.migrator;
 
+import com.nixmash.wp.migrator.db.local.dto.LocalUserDTO;
 import com.nixmash.wp.migrator.db.local.model.*;
 import com.nixmash.wp.migrator.db.local.service.LocalDbService;
 import com.nixmash.wp.migrator.enums.PostType;
+import com.nixmash.wp.migrator.utils.ImportUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -93,6 +96,42 @@ public class LocalDbTests extends WpSpringContext {
 
         LocalPost found = localDbService.getLocalPostByPostId(saved.getPostId());
         assertNotNull(found);
+    }
+
+    @Test
+    public void updatePasswordTest() {
+        String OLD_PASSWORD = "password";
+        String NEW_PASSWORD = "newword";
+        String encodedPassword;
+
+        LocalUser localUser = localDbService.getLocalUserById(1L);
+        encodedPassword = localUser.getPassword();
+        assertTrue(new BCryptPasswordEncoder().matches(OLD_PASSWORD, encodedPassword));
+
+        localUser.setPassword(NEW_PASSWORD);
+        localDbService.updateLocalUserPassword(localUser);
+        LocalUser updatedUser = localDbService.getLocalUserById(1L);
+        encodedPassword = updatedUser.getPassword();
+        assertTrue(new BCryptPasswordEncoder().matches(NEW_PASSWORD, encodedPassword));
+
+    }
+
+    @Test
+    public void updateLocalUserTest() {
+
+        String OLD_USERNAME = "keith";
+        String NEW_USERNAME = "bobby";
+        LocalUser localUser = localDbService.getLocalUserById(1L);
+        assertEquals(localUser.getUsername(), OLD_USERNAME);
+
+        LocalUserDTO localUserDTO = ImportUtils.getDefaultLocalUserDTO(
+                NEW_USERNAME, "bobby@aol.com", "Bob", "Shmob");
+        LocalUser updatedUser = localDbService.updateLocalUser(localUserDTO);
+        assertEquals(updatedUser.getUsername(), NEW_USERNAME);
+
+        LocalUser foundUser = localDbService.getLocalUserById(1L);
+        assertEquals(foundUser.getUsername(), NEW_USERNAME);
+
     }
 
     // endregion

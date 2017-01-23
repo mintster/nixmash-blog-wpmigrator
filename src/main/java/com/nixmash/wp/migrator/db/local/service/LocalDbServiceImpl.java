@@ -1,8 +1,10 @@
 package com.nixmash.wp.migrator.db.local.service;
 
+import com.nixmash.wp.migrator.db.local.dto.LocalUserDTO;
 import com.nixmash.wp.migrator.db.local.model.*;
 import com.nixmash.wp.migrator.db.local.repository.*;
 import com.nixmash.wp.migrator.db.wp.model.WpPostCategory;
+import com.nixmash.wp.migrator.utils.ImportUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,6 +81,28 @@ public class LocalDbServiceImpl implements LocalDbService {
     @Transactional(readOnly = true)
     public Collection<LocalUser> getLocalUsers() {
         return  userRepository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public LocalUser getLocalUserById(Long userId) {
+        return userRepository.findById(userId);
+    }
+
+    @Override
+    @Transactional
+    public LocalUser updateLocalUserPassword(LocalUser localUser) {
+        LocalUser updatedUser = userRepository.findById(localUser.getId());
+        updatedUser.setPassword(ImportUtils.bcryptedPassword(localUser.getPassword()));
+        return updatedUser;
+    }
+
+    @Override
+    @Transactional
+    public LocalUser updateLocalUser(LocalUserDTO localUserDTO) {
+        LocalUser localUser = userRepository.findById(localUserDTO.getUserId());
+        localUser.update(localUserDTO.getUsername(), localUserDTO.getFirstName(), localUserDTO.getLastName(), localUserDTO.getEmail());
+        return localUser;
     }
 
     // endregion
