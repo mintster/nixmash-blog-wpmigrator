@@ -10,6 +10,8 @@ import org.kamranzafar.spring.wpapi.Tag;
 public interface WpApiService {
     Post[] getPosts(int count);
 
+    Post getPost(int postId);
+
     Tag[] getTags(int count);
 
     Category[] getCategories(int count);

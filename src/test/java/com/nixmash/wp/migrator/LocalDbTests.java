@@ -40,7 +40,7 @@ public class LocalDbTests extends WpSpringContext {
     EntityManager entityManager;
 
     @Before
-    public void clearH2Data() {
+    public void clearPosts() {
         String sql = "DELETE FROM posts;" +
                 "ALTER TABLE posts ALTER COLUMN post_id RESTART WITH 1;";
         entityManager.createNativeQuery(sql).executeUpdate();

@@ -29,6 +29,11 @@ public class WpApiServiceImpl implements WpApiService {
     }
 
     @Override
+    public Post getPost(int postId) {
+        return wpApiClient.getPostService().get(postId);
+    }
+
+    @Override
     public Tag[] getTags(int count) {
         return wpApiClient.getTagService().getAll(getParams(count));
     }
