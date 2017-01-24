@@ -29,8 +29,8 @@ public class WpApiServiceImpl implements WpApiService {
     }
 
     @Override
-    public Post getPost(int postId) {
-        return wpApiClient.getPostService().get(postId);
+    public Post getPost(Long wpPostId) {
+        return wpApiClient.getPostService().get(Math.toIntExact(wpPostId));
     }
 
     @Override

@@ -5,9 +5,11 @@ import com.nixmash.wp.migrator.db.local.service.LocalDbService;
 import com.nixmash.wp.migrator.db.wp.model.*;
 import com.nixmash.wp.migrator.db.wp.service.WpDbService;
 import com.nixmash.wp.migrator.utils.ImportUtils;
+import org.kamranzafar.spring.wpapi.Post;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,10 +28,12 @@ public class ImportServiceImpl implements ImportService {
 
     final private WpDbService wpDbService;
     final private LocalDbService localDbService;
+    final private WpApiService wpApiService;
 
-    public ImportServiceImpl(WpDbService wpDbService, LocalDbService localDbService) {
+    public ImportServiceImpl(WpDbService wpDbService, LocalDbService localDbService, WpApiService wpApiService) {
         this.wpDbService = wpDbService;
         this.localDbService = localDbService;
+        this.wpApiService = wpApiService;
     }
 
     @Override
@@ -58,6 +62,26 @@ public class ImportServiceImpl implements ImportService {
         for (WpTag wpTag : wpTags) {
             localDbService.addLocalTag(ImportUtils.wpToLocalTag(wpTag));
         }
+    }
+
+    @Override
+    @Transactional
+    public void updatePostContent() {
+        List<LocalPost> posts = localDbService.getLocalPostsByWpPostId();
+        for (LocalPost localPost : posts) {
+                Post wpApiPost = wpApiService.getPost(localPost.getWpPostId());
+//            System.out.println(String.format("%s | %s | %s",
+//                    wpApiPost.getId(), wpApiPost.getTitle().toString().substring(0, 20), wpApiPost.getContent().getRendered().substring(0,20)));
+//                localPost.updateContent(wpApiPost.getContent().getRendered());
+//            if (wpApiPost.getId() == 24) {
+//                System.out.println(String.format("%s | %s | %s", wpApiPost.getId(), wpApiPost.getTitle(), ImportUtils.clean(wpApiPost.getContent().getRendered())));
+//                localPost.updateContent(html);
+//            }
+//            System.out.println("WP: " + wpApiPost.getId() + " | " + wpApiPost.getTitle());
+//            System.out.println("LOCAL: " + localPost.getPostId() + " | " + localPost.getPostTitle());
+             localPost.updateContent(wpApiPost.getContent().getRendered());
+        }
+
     }
 
     @Override

@@ -156,6 +156,13 @@ CREATE UNIQUE INDEX posts_post_id_uindex ON posts (post_id);
 CREATE INDEX posts_users_user_id_fk ON posts (user_id);
 
 -- ----------------------------
+-- Set posts.post_content table for proper encoding on HTML on WP import
+-- ----------------------------
+
+ALTER TABLE posts MODIFY COLUMN post_content TEXT
+CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
+
+-- ----------------------------
 -- Table structure for tags
 -- ----------------------------
 

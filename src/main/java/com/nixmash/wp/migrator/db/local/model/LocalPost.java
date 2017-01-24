@@ -3,6 +3,7 @@ package com.nixmash.wp.migrator.db.local.model;
 
 import com.nixmash.wp.migrator.enums.PostDisplayType;
 import com.nixmash.wp.migrator.enums.PostType;
+import com.nixmash.wp.migrator.utils.ImportUtils;
 import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -323,6 +324,10 @@ public class LocalPost implements Serializable {
         this.postContent = postContent;
         this.isPublished = isPublished;
         this.displayType = displayType;
+    }
+
+    public void updateContent(String postContent) {
+            this.postContent = ImportUtils.clean(postContent);
     }
 
     public void updateLikes(int likeIncrement) {

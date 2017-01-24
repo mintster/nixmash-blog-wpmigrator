@@ -50,6 +50,12 @@ public class LocalDbServiceImpl implements LocalDbService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<LocalPost> getLocalPostsByWpPostId() {
+        return postRepository.findAll(sortByWpPostId());
+    }
+
+    @Override
     @Transactional
     public LocalPost addLocalPost(LocalPost post) {
         return postRepository.save(post);
@@ -190,6 +196,10 @@ public class LocalDbServiceImpl implements LocalDbService {
 
     public Sort sortByPostDateDesc() {
         return new Sort(Sort.Direction.DESC, "postDate");
+    }
+
+    public Sort sortByWpPostId() {
+        return new Sort(Sort.Direction.ASC, "wpPostId");
     }
 
 }

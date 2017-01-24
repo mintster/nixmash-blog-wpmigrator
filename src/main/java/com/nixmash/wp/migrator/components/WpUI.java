@@ -40,9 +40,25 @@ public class WpUI {
     }
 
     public void init() {
-        doImportTags();
+        doImportContent();
     }
 
+
+    private void doImportContent() {
+        long start;
+        long end;
+
+        start = timeMark();
+        importService.importPosts();
+        end = timeMark();
+        System.out.println("Total time importPosts(): " + totalTime(start, end));
+
+        start = timeMark();
+        importService.updatePostContent();
+        end = timeMark();
+        System.out.println("Total time updatePostContent(): " + totalTime(start, end));
+
+    }
 
     private void doImportTags() {
         long start;

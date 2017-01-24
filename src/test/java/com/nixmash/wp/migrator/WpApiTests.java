@@ -4,6 +4,8 @@ import com.nixmash.wp.migrator.db.local.model.LocalPost;
 import com.nixmash.wp.migrator.db.local.service.LocalDbService;
 import com.nixmash.wp.migrator.service.ImportService;
 import com.nixmash.wp.migrator.service.WpApiService;
+import com.nixmash.wp.migrator.utils.ImportUtils;
+import org.jsoup.Jsoup;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -54,14 +56,34 @@ public class WpApiTests extends WpSpringContext {
     }
 
     @Test
+    public void wpApiApostropheTest() {
+        importService.importPosts();
+        List<LocalPost> localPosts = localDbService.getLocalPosts();
+        assertThat(localPosts.size(), greaterThan(0));
+        for (LocalPost localPost : localPosts) {
+            Post post = wpApiService.getPost(localPost.getWpPostId());
+
+            // confirm no Right Single Quotes appear in rendered contents
+            // WordPress uses &#8217;  We want &#39;
+            // See this post: http://nickjohnson.com/b/wordpress-apostrophe-vs-right-single-quote
+
+            String content = ImportUtils.clean(post.getContent().getRendered());
+            assertEquals(content.indexOf("&#8217;"), -1);
+        }
+
+    }
+
+    @Test
     public void getWpApiPostsTest() throws  Exception {
         importService.importPosts();
         List<LocalPost> localPosts = localDbService.getLocalPosts();
         assertThat(localPosts.size(), greaterThan(0));
         for (LocalPost localPost : localPosts) {
-            Post post = wpApiService.getPost(Math.toIntExact(localPost.getWpPostId()));
-            System.out.println(post.getTitle());
-//            assertEquals(localPost.getPostTitle(), post.getTitle());
+            Post post = wpApiService.getPost(localPost.getWpPostId());
+
+            // confirm titles from WpAPI and local Posts are identical
+            String title = ImportUtils.clean(String.valueOf(post.getTitle()));
+            assertEquals(localPost.getPostTitle().trim(), Jsoup.parse(title).text());
         }
     }
 

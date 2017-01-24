@@ -17,6 +17,9 @@ public interface LocalDbService {
 
     List<LocalPost> getLocalPosts();
 
+    @Transactional(readOnly = true)
+    List<LocalPost> getLocalPostsByWpPostId();
+
     @Transactional
     LocalPost addLocalPost(LocalPost post);
 

@@ -58,4 +58,10 @@ public class ImportUtils {
     public static LocalUserDTO getDefaultLocalUserDTO(String username,  String email, String firstName, String lastName) {
         return LocalUserDTO.getBuilder(1L, username, email, firstName, lastName).build();
     }
+
+    public static String clean(String html) {
+        String out = html;
+        out = html.replace("&#8217;", "&#39;");
+        return out;
+    }
 }

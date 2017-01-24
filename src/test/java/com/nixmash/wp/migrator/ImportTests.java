@@ -6,9 +6,12 @@ import com.nixmash.wp.migrator.db.local.model.LocalPostCategory;
 import com.nixmash.wp.migrator.db.local.model.LocalPostTag;
 import com.nixmash.wp.migrator.db.local.service.LocalDbService;
 import com.nixmash.wp.migrator.service.ImportService;
+import com.nixmash.wp.migrator.service.WpApiService;
+import com.nixmash.wp.migrator.utils.ImportUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kamranzafar.spring.wpapi.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -28,7 +31,7 @@ import static org.junit.Assert.assertThat;
  */
 @RunWith(SpringRunner.class)
 @Transactional
-@Rollback(true)
+@Rollback(false)
 public class ImportTests extends WpSpringContext {
 
     private static final String NA = "NA";
@@ -39,18 +42,21 @@ public class ImportTests extends WpSpringContext {
     @Autowired
     private LocalDbService localDbService;
 
+    @Autowired
+    private WpApiService wpApiService;
+
     @PersistenceContext(unitName = LOCAL)
     private EntityManager entityManager;
 
     @Before
     public void clearPostData() {
         String sql = "SET FOREIGN_KEY_CHECKS = 0;" +
-                                    "TRUNCATE TABLE posts; " +
-                                    "TRUNCATE TABLE  categories; " +
-                                    "TRUNCATE TABLE  tags;" +
-                                    "TRUNCATE TABLE  post_tag_ids;" +
-                                    "TRUNCATE TABLE  post_category_ids;" +
-                                    "SET FOREIGN_KEY_CHECKS = 1;";
+                "TRUNCATE TABLE posts; " +
+                "TRUNCATE TABLE  categories; " +
+                "TRUNCATE TABLE  tags;" +
+                "TRUNCATE TABLE  post_tag_ids;" +
+                "TRUNCATE TABLE  post_category_ids;" +
+                "SET FOREIGN_KEY_CHECKS = 1;";
         entityManager.createNativeQuery(sql).executeUpdate();
         List<LocalPost> posts = localDbService.getLocalPosts();
         assertEquals(posts.size(), 0);
@@ -63,6 +69,17 @@ public class ImportTests extends WpSpringContext {
         importService.importPosts();
         List<LocalPost> posts = localDbService.getLocalPosts();
         assertThat(posts.size(), greaterThan(0));
+    }
+
+    @Test
+    public void updateContentTest() {
+        importService.importPosts();
+        List<LocalPost> posts = localDbService.getLocalPostsByWpPostId();
+        for (LocalPost localPost : posts) {
+            Post wpApiPost = wpApiService.getPost(localPost.getWpPostId());
+            String html = ImportUtils.clean(wpApiPost.getContent().getRendered());
+            localPost.updateContent(html);
+        }
     }
 
     @Test

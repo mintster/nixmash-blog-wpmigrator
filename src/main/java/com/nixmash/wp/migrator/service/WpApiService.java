@@ -10,7 +10,7 @@ import org.kamranzafar.spring.wpapi.Tag;
 public interface WpApiService {
     Post[] getPosts(int count);
 
-    Post getPost(int postId);
+    Post getPost(Long wpPostId);
 
     Tag[] getTags(int count);
 
