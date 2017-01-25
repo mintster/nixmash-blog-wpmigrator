@@ -1,5 +1,6 @@
 package com.nixmash.wp.migrator;
 
+import com.nixmash.wp.migrator.components.BloggerSettings;
 import com.nixmash.wp.migrator.db.local.dto.LocalUserDTO;
 import com.nixmash.wp.migrator.db.local.model.*;
 import com.nixmash.wp.migrator.db.local.service.LocalDbService;
@@ -35,6 +36,9 @@ public class LocalDbTests extends WpSpringContext {
 
     @Autowired
     private LocalDbService localDbService;
+
+    @Autowired
+    private BloggerSettings bloggerSettings;
 
     @PersistenceContext(unitName = LOCAL)
     EntityManager entityManager;
@@ -119,12 +123,13 @@ public class LocalDbTests extends WpSpringContext {
     @Test
     public void updateLocalUserTest() {
 
-        String OLD_USERNAME = "keith";
         String NEW_USERNAME = "bobby";
+
         LocalUser localUser = localDbService.getLocalUserById(1L);
+        String OLD_USERNAME = localUser.getUsername();
         assertEquals(localUser.getUsername(), OLD_USERNAME);
 
-        LocalUserDTO localUserDTO = ImportUtils.getDefaultLocalUserDTO(
+        LocalUserDTO localUserDTO = ImportUtils.updateLocalUserDTO(
                 NEW_USERNAME, "bobby@aol.com", "Bob", "Shmob");
         LocalUser updatedUser = localDbService.updateLocalUser(localUserDTO);
         assertEquals(updatedUser.getUsername(), NEW_USERNAME);
@@ -136,4 +141,29 @@ public class LocalDbTests extends WpSpringContext {
 
     // endregion
 
+    // region Update Blogger Properties Tests
+
+    @Test
+    public void updateBlogger() throws Exception {
+        String BAMBAM_EMAIL = "bambam@aol.com";
+
+        assertEquals(bloggerSettings.getEmail(), BAMBAM_EMAIL);
+
+        LocalUser localUser = localDbService.getLocalUserById(1L);
+        String localUserKey = localUser.getUserKey();
+        assertNotEquals(localUser.getUsername(), bloggerSettings.getUsername());
+
+        LocalUserDTO localUserDTO = ImportUtils.updateLocalUserDTO(
+                bloggerSettings.getUsername(),
+                bloggerSettings.getEmail(),
+                bloggerSettings.getFirstName(),
+                bloggerSettings.getLastName()
+        );
+        LocalUser saved = localDbService.updateLocalUser(localUserDTO);
+        assertEquals(saved.getEmail(), BAMBAM_EMAIL);
+        assertNotEquals(localUserKey, saved.getUserKey());
+
+    }
+
+    // endregion
 }

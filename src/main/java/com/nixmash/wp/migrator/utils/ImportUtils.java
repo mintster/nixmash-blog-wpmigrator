@@ -46,21 +46,20 @@ public class ImportUtils {
     }
 
     public static String totalTime(long lStartTime, long lEndTime) {
-        long duration = lEndTime - lStartTime;
-        String totalTime = String.format("Milliseconds: %d", duration);
-        return totalTime;
+        double seconds = (lEndTime - lStartTime)/1000.0;
+        return String.format("%4.2f seconds", seconds);
     }
 
     public static String bcryptedPassword(String rawPassword) {
         return new BCryptPasswordEncoder().encode(rawPassword);
     }
 
-    public static LocalUserDTO getDefaultLocalUserDTO(String username,  String email, String firstName, String lastName) {
+    public static LocalUserDTO updateLocalUserDTO(String username, String email, String firstName, String lastName) {
         return LocalUserDTO.getBuilder(1L, username, email, firstName, lastName).build();
     }
 
     public static String clean(String html) {
-        String out = html;
+        String out;
         out = html.replace("&#8217;", "&#39;");
         return out;
     }

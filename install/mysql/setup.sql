@@ -11,7 +11,7 @@ CREATE TABLE `authorities` (
   `is_locked` tinyint(1) NOT NULL,
   PRIMARY KEY (`authority_id`),
   UNIQUE KEY `uc_authorities` (`authority`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Table structure for users
@@ -57,8 +57,6 @@ CREATE TABLE user_data
   REFERENCES users (user_id)
 );
 CREATE UNIQUE INDEX user_data_user_id_uindex ON user_data (user_id);
-
-INSERT INTO user_data (user_id) SELECT user_id from users;
 
 -- ----------------------------
 -- Table structure for user_authorities
@@ -151,7 +149,7 @@ CREATE TABLE posts
   version INT(11) DEFAULT '0' NOT NULL,
   wp_post_id BIGINT(20) DEFAULT '0',
   CONSTRAINT posts_users_user_id_fk FOREIGN KEY (user_id) REFERENCES users (user_id)
-);
+) ENGINE=InnoDB DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci;
 CREATE UNIQUE INDEX posts_post_id_uindex ON posts (post_id);
 CREATE INDEX posts_users_user_id_fk ON posts (user_id);
 
@@ -159,8 +157,8 @@ CREATE INDEX posts_users_user_id_fk ON posts (user_id);
 -- Set posts.post_content table for proper encoding on HTML on WP import
 -- ----------------------------
 
-ALTER TABLE posts MODIFY COLUMN post_content TEXT
-CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
+# ALTER TABLE posts MODIFY COLUMN post_content TEXT
+# CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
 
 -- ----------------------------
 -- Table structure for tags
@@ -174,7 +172,7 @@ CREATE TABLE `tags` (
   PRIMARY KEY (`tag_id`),
   UNIQUE KEY `tags_tag_id_uindex` (`tag_id`),
   UNIQUE KEY `tags_tag_value_uindex` (`tag_value`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Table structure for categories
@@ -203,8 +201,23 @@ CREATE TABLE `post_tag_ids` (
   KEY `fk_tags_tag_id` (`tag_id`),
   CONSTRAINT `fk_posts_post_id` FOREIGN KEY (`post_id`) REFERENCES `posts` (`post_id`),
   CONSTRAINT `fk_tags_tag_id` FOREIGN KEY (`tag_id`) REFERENCES `tags` (`tag_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- ----------------------------
+-- Table structure for post_category_ids
+-- ----------------------------
+
+DROP TABLE IF EXISTS `post_category_ids`;
+CREATE TABLE post_category_ids
+(
+  post_category_id BIGINT(20) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  post_id BIGINT(20) NOT NULL,
+  category_id BIGINT(20) NOT NULL,
+  CONSTRAINT fk_categories_post_id FOREIGN KEY (post_id) REFERENCES posts (post_id),
+  CONSTRAINT fk_categories_category_id FOREIGN KEY (category_id) REFERENCES categories (category_id)
+);
+CREATE INDEX fk_categories_category_id ON post_category_ids (category_id);
+CREATE INDEX fk_categories_post_id ON post_category_ids (post_id);
 
 -- ----------------------------
 -- Table structure for user_likes
@@ -271,8 +284,9 @@ INSERT INTO `authorities` VALUES ('3', 'ROLE_POSTS','1');
 -- ----------------------------
 -- Insert into users
 -- ----------------------------
-INSERT INTO `users` VALUES ('1', 'admin', 'admin@aol.com', 'Admin', 'Jones', '1', '0', '0', '0', '0', '4L4Hr3skHYYMbjkQ','SITE', '$2a$10$B9wQFSrr3bfQeUGqxtTDuut1.4YFcA/WFthZaGe1wtb1wgVW./Oiq', CURRENT_TIMESTAMP, NULL,'0');
-INSERT INTO `users` VALUES ('2', 'ken', 'ken@aol.com', 'Ken', 'Watts', '1', '0', '0', '0',  '0', 'TUuOypJ5pPI0ksqi', 'SITE', '$2a$10$F2a2W8RtbD99xXd9xtwjbuI4zjSYe04kS.s0FyvQcAIDJfh/6jjLW', CURRENT_TIMESTAMP, NULL, '0');
+INSERT INTO `users` VALUES ('1', 'ken', 'ken@aol.com', 'Ken', 'Watts', '1', '0', '0', '0',  '0', 'TUuOypJ5pPI0ksqi', 'SITE', '$2a$10$F2a2W8RtbD99xXd9xtwjbuI4zjSYe04kS.s0FyvQcAIDJfh/6jjLW', CURRENT_TIMESTAMP, NULL, '0');
+
+INSERT INTO user_data (user_id) SELECT user_id from users;
 
 -- ----------------------------
 -- Insert into user_authorities
@@ -280,7 +294,6 @@ INSERT INTO `users` VALUES ('2', 'ken', 'ken@aol.com', 'Ken', 'Watts', '1', '0',
 INSERT INTO `user_authorities` VALUES ('1', '1');
 INSERT INTO `user_authorities` VALUES ('1', '2');
 INSERT INTO `user_authorities` VALUES ('1', '3');
-INSERT INTO `user_authorities` VALUES ('2', '2');
 
 -- ----------------------------
 -- Insert into site_options
@@ -291,14 +304,3 @@ INSERT INTO `site_options` VALUES ('3', 'addGoogleAnalytics', 'false');
 INSERT INTO `site_options` VALUES ('4', 'googleAnalyticsTrackingId', 'UA-XXXXXX-7');
 INSERT INTO `site_options` VALUES ('5', 'userRegistration', 'EMAIL_VERIFICATION');
 
--- ----------------------------
--- Insert into posts, tags and post_tag_ids
--- ----------------------------
-
-# INSERT INTO posts (post_id, user_id, post_title, post_name, post_link, post_date, post_modified, post_type, display_type, is_published, post_content, post_source, post_image, click_count, likes_count, value_rating, version) VALUES (1, 1, 'Sample Post', 'sample-post', null, '2016-06-29 13:11:09', '2016-08-31 16:29:06', 'POST', 'POST', 1, '<p>Here''s a sample post to be deleted later.</p>', 'NA', null, 0, 0, 0, 0);
-#
-# INSERT INTO tags (tag_id, tag_value, nixmashdb.tags.wp_tag_id) VALUES (1, 'Sample Tag', 200);
-# INSERT INTO post_tag_ids (post_tag_id, post_id, tag_id) VALUES (1, 1, 1);
-#
-# INSERT INTO categories VALUES (1, 'Sample Category', 100);
-# INSERT INTO post_category_ids (post_category_id, post_id, category_id) VALUES (1, 1, 1);

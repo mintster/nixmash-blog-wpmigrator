@@ -54,7 +54,7 @@ dependencies {
 	compile 'org.apache.tomcat:tomcat-dbcp:8.5.4'
 	compile 'org.jadira.usertype:usertype.extended:5.0.0.GA'
 	compile 'org.hibernate:hibernate-java8:5.1.0.Final'
-	compile 'org.jsoup:jsoup:1.10.2'
+	compile 'org.apache.commons:commons-lang3:3.4'
 
 	runtime 'com.h2database:h2'
 	runtime 'mysql:mysql-connector-java'

@@ -2,6 +2,7 @@ package com.nixmash.wp.migrator.db.local.model;
 
 import com.nixmash.wp.migrator.enums.Role;
 import com.nixmash.wp.migrator.enums.SignInProvider;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
@@ -281,6 +282,7 @@ public class LocalUser implements UserDetails, Serializable {
         this.lastName = lastName;
         this.email = email;
         this.username = username;
+        this.userKey = (RandomStringUtils.randomAlphanumeric(16));
     }
 
     public void update(UserData userData) {

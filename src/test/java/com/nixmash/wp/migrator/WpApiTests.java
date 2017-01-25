@@ -5,7 +5,7 @@ import com.nixmash.wp.migrator.db.local.service.LocalDbService;
 import com.nixmash.wp.migrator.service.ImportService;
 import com.nixmash.wp.migrator.service.WpApiService;
 import com.nixmash.wp.migrator.utils.ImportUtils;
-import org.jsoup.Jsoup;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -83,7 +83,7 @@ public class WpApiTests extends WpSpringContext {
 
             // confirm titles from WpAPI and local Posts are identical
             String title = ImportUtils.clean(String.valueOf(post.getTitle()));
-            assertEquals(localPost.getPostTitle().trim(), Jsoup.parse(title).text());
+            assertEquals(localPost.getPostTitle().trim(), StringEscapeUtils.unescapeHtml4(title));
         }
     }
 
