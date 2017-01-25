@@ -1,3 +1,10 @@
+/* ------------------------------------------------------------------------------
+
+        Script to create schema in NixMash Spring Blog MySQL Destination
+        WordPress NixMash Spring Migrator Version v1.0.0
+
+--------------------------------------------------------------------------- */
+
 
 SET FOREIGN_KEY_CHECKS=0;
 

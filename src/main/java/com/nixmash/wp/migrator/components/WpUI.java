@@ -44,7 +44,7 @@ public class WpUI {
         long importStart = timeMark();
         long importComplete = timeMark();
 
-
+        System.out.println();
         start = timeMark();
         importService.importPosts();
         end = timeMark();
@@ -83,12 +83,14 @@ public class WpUI {
         importComplete = timeMark();
 
         System.out.println();
-        print("Migration complete!");
+        print("MIGRATION COMPLETE! --------------------------- */");
+        System.out.println();
         print("Number of Posts Imported: " + postCount);
         print("Number of Tags Imported: " + tagCount);
         print("Number of Categories Imported: " + categoryCount);
         print("Total Execution Time: " + totalTime(importStart, importComplete));
-        print("See README for any additional setup notes.");
+        System.out.println();
+        print("Please see the README.md for any additional setup notes.");
         System.out.println();
     }
 
@@ -102,6 +104,6 @@ public class WpUI {
     }
 
     private void print(String section) {
-        System.out.println(String.format("%s --------------------------------- */", section.toUpperCase()));
+        System.out.println(section);
     }
 }
