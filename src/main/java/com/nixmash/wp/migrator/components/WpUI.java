@@ -90,7 +90,7 @@ public class WpUI {
         print("Number of Categories Imported: " + categoryCount);
         print("Total Execution Time: " + totalTime(importStart, importComplete));
         System.out.println();
-        print("Please see the README.md for any additional setup notes.");
+        print("Please see the NixMash Blog Repository Wiki on Github for any additional setup notes.");
         System.out.println();
     }
 

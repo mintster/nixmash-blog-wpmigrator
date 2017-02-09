@@ -1,9 +1,9 @@
 WordPress to NixMash Blog Engine Migrator
 ==========================
 
-Migrates a WordPress blog content to a destination MySQL database with the NixMash Blog schema. Built with Gradle in Spring Boot using Spring JPA. It also uses Kamran Zafar's excellent Spring WordPress WP-API Client to migrated rendered WP Post content.
+Migrates a WordPress blog content to a destination MySQL database with the NixMash Blog schema. Built with Gradle in Spring Boot using Spring JPA. It also uses Kamran Zafar's excellent Spring WordPress WP-API Client to migrate rendered WP Post content.
 
-- [NixMash Blog Repository](https://github.com/mintster/nixmash-blog)
+- [NixMash Blog Engine](https://github.com/mintster/nixmash-blog)
 - [NixMash Spring Repository](https://github.com/mintster/spring-data)
 - [Spring WordPress WP-API Client](https://github.com/kamranzafar/spring-wpapi)
 
@@ -25,9 +25,11 @@ PROJECT_ROOT> $ gradle clean bootRepackage
 JAR_LOCATION> $ java -jar wpspring-exec.jar
 ```
 
+You can also perform a complete migration within your IntelliJ, Eclipse or NetBeans IDE.
+
 ##Output
 
-The Output of the application is a MySQL database fully populated with your WordPress Blog posts, categories and tags. A new NixMash Blog user account is created with the data you provided in `application.properties` with the default password of *"password."* 
+The Output of the application is a MySQL database containing all of your WordPress Blog posts, categories and tags. A new NixMash Blog user account is created with the data you provided in `application.properties` with a default password of *"password."* 
 
 This is what a successful execution of the WP Migrator application looks like.
 
