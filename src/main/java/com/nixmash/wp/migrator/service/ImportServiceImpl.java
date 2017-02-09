@@ -69,17 +69,8 @@ public class ImportServiceImpl implements ImportService {
     public void updatePostContent() {
         List<LocalPost> posts = localDbService.getLocalPostsByWpPostId();
         for (LocalPost localPost : posts) {
-                Post wpApiPost = wpApiService.getPost(localPost.getWpPostId());
-//            System.out.println(String.format("%s | %s | %s",
-//                    wpApiPost.getId(), wpApiPost.getTitle().toString().substring(0, 20), wpApiPost.getContent().getRendered().substring(0,20)));
-//                localPost.updateContent(wpApiPost.getContent().getRendered());
-//            if (wpApiPost.getId() == 24) {
-//                System.out.println(String.format("%s | %s | %s", wpApiPost.getId(), wpApiPost.getTitle(), ImportUtils.clean(wpApiPost.getContent().getRendered())));
-//                localPost.updateContent(html);
-//            }
-//            System.out.println("WP: " + wpApiPost.getId() + " | " + wpApiPost.getTitle());
-//            System.out.println("LOCAL: " + localPost.getPostId() + " | " + localPost.getPostTitle());
-             localPost.updateContent(wpApiPost.getContent().getRendered());
+            Post wpApiPost = wpApiService.getPost(localPost.getWpPostId());
+            localPost.updateContent(wpApiPost.getContent().getRendered());
         }
 
     }

@@ -3,6 +3,7 @@ WordPress to NixMash Blog Engine Migrator
 
 Migrates a WordPress blog content to a destination MySQL database with the NixMash Blog schema. Built with Gradle in Spring Boot using Spring JPA. It also uses Kamran Zafar's excellent Spring WordPress WP-API Client to migrated rendered WP Post content.
 
+- [NixMash Blog Repository](https://github.com/mintster/nixmash-blog)
 - [NixMash Spring Repository](https://github.com/mintster/spring-data)
 - [Spring WordPress WP-API Client](https://github.com/kamranzafar/spring-wpapi)
 

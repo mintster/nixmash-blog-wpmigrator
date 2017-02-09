@@ -5,8 +5,6 @@ import com.nixmash.wp.migrator.enums.PostDisplayType;
 import com.nixmash.wp.migrator.enums.PostType;
 import com.nixmash.wp.migrator.utils.ImportUtils;
 import org.hibernate.annotations.Type;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.util.StringUtils;
 
@@ -195,7 +193,7 @@ public class LocalPost implements Serializable {
         this.postLink = postLink;
     }
 
-    @CreatedDate
+//    @CreatedDate
     @Type(type = "org.jadira.usertype.dateandtime.threeten.PersistentLocalDateTime")
     public ZonedDateTime getPostDate() {
         return postDate;
@@ -204,7 +202,7 @@ public class LocalPost implements Serializable {
         this.postDate = postDate;
     }
 
-    @LastModifiedDate
+//    @LastModifiedDate
     @Type(type = "org.jadira.usertype.dateandtime.threeten.PersistentLocalDateTime")
     public ZonedDateTime getPostModified() {
         return postModified;
