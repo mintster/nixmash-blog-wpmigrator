@@ -1,11 +1,13 @@
 WordPress to NixMash Blog Engine Migrator
 ==========================
 
-Migrates the posts, categories and tags of a WordPress blog to a destination MySQL database with the NixMash Blog Engine schema. The NixMash Blog Migrator was built in Spring Boot. It also uses Kamran Zafar's excellent Spring WordPress WP-API Client to migrate rendered WP Post content.
+Migrates the posts, categories and tags of a WordPress blog to a destination MySQL database with the NixMash Blog Engine schema. The WordPress to NixMash Blog Migrator was built in Spring Boot. It also uses Kamran Zafar's excellent Spring WordPress WP-API Client to migrate rendered WP Post content.
 
 - [NixMash Blog Engine](https://github.com/mintster/nixmash-blog)
 - [NixMash Spring Repository](https://github.com/mintster/spring-data)
 - [Spring WordPress WP-API Client](https://github.com/kamranzafar/spring-wpapi)
+
+*Be sure to read [the Project Wiki](https://github.com/mintster/wp-nixmash-blog-migrator/wiki) for configuration and setup information.*
 
 ##Project Status
 
