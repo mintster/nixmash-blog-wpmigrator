@@ -9,7 +9,7 @@ Migrates a WordPress blog content to a destination MySQL database with the NixMa
 
 ##Project Status
 
-This application, the **WordPress to NixMash Blog Migrator** is complete. The NixMash Blog Engine is a reduction of the NixMash Spring code base and is still in development. When complete it will be announced here and elsewhere.
+This application, the **WordPress to NixMash Blog Migrator** is complete. The NixMash Blog Engine is a reduction of the NixMash Spring code base and not yet considered Production Ready. When it is it will be announced here and elsewhere.
 
 ##Installation Overview
 
