@@ -60,3 +60,8 @@ dependencies {
 	runtime 'mysql:mysql-connector-java'
 	testCompile 'org.springframework.boot:spring-boot-starter-test'
 }
+
+bootRun {
+	systemProperty 'spring.profiles.active', 'mysql'
+	main = 'com.nixmash.wp.migrator.Application'
+}
