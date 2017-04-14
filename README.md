@@ -15,16 +15,22 @@ This application, the **WordPress to NixMash Blog Migrator** is complete. The Ni
 
 ##Installation Overview
 
-- MySQL setup scripts located in `/install/mysql/.` Run `setup.sql` in empty destination MySQL database, `wpsetup.sql` in WordPress database to create four utility SQL Views.
-- Update `application.properties` in both `/test/resources` and `/main/resources` for blogger username, WordPress API blog Url, WordPress Origination and Destination datasources
+- MySQL setup scripts located in `/install/mysql/.` Run `setup.sql` in your empty destination MySQL database, and `wpsetup.sql` in WordPress database to create four utility SQL Views.
+- Update `application.properties` in both `/test/resources` and `/main/resources` for 1) blogger username, 2) WordPress API blog Url, 3) WordPress Origination datasource and 4) NixMash Blog Destination datasource
 
 ##Running the Application
 
 You can either run the migrator inside of your IDE or use the SpringBoot Gradle Plugin to create an Executable JAR.
 
-```js
+```bash
 PROJECT_ROOT> $ gradle clean bootRepackage
 JAR_LOCATION> $ java -jar wpspring-exec.jar
+```
+
+You can run the migrator in your IDE Terminal View with the Spring Gradle Plugin `bootRun` task
+
+```bash
+PROJECT_ROOT> $ gradle bootRun
 ```
 
 You can also perform a complete migration within your IntelliJ, Eclipse or NetBeans IDE.

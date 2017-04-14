@@ -48,7 +48,6 @@ dependencies {
 	runtime 'org.springframework.boot:spring-boot-devtools'
 
 	compile fileTree(dir: 'libs', include: '*.jar')
-//	compile 'org.kamranzafar.spring.wpapi:spring-wpapi-client:0.1'
 
 	compile 'commons-dbcp:commons-dbcp:1.4'
 	compile 'org.apache.tomcat:tomcat-dbcp:8.5.4'
