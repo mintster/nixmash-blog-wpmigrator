@@ -43,4 +43,3 @@ This is what a successful execution of the WP Migrator application looks like.
 
 ![WordPress to NixMash Blog Migrator Execution](http://nixmash.com/x/pics/github/wpspring0125a.png)
 
-
